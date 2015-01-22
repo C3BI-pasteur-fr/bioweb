@@ -1,10 +1,10 @@
 """
 Created on Oct. 23, 2014
 
-@author: Olivia Doppelt-Azeroual, Institut Pasteur, Paris
-@contact: olivia.doppelt@pasteur.fr
-@project: toolinfowarehouse
-@githuborganization: edamontology
+@authors: Olivia Doppelt-Azeroual, Fabien Mareuil, Institut Pasteur, Paris
+@contacts: olivia.doppelt@pasteur.fr, fabien.mareuil@pasteur.fr
+@project: bioweb_galaxy
+@githuborganization: bioweb
 """
 
 import sys
