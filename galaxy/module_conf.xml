@@ -13,65 +13,65 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/annotategenes/annotateGenes/1.0"  version="1.0" module="Nebula" commands="geneAnnotation.pl;createControlPeakSubSet.pl;geneDist.R"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mblastall/mblastall/2.2.26" version="2.2.26" module="blast/2.2.26 ptools/0.99a" commands="mblastall"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mblastall/formatdb/0.0.2" version="0.0.2" module="blast/2.2.26 ptools/0.99a" commands="formatdb"/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/genbank_to_gene_protein_convertor/genbank_to_gene_prot_convertor/0.0.1" version="0.0.1" module="pf1-tools/0.1"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/snp_indel_convertor/reformat_snpEff_for_SynTView/0.0.1" version="0.0.1" module="SynTViewTools/0.0.1" commands=""/>
-    <tool id="Sff_extractor" version="1.0.1" module="ssaha/2.2" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mpileup_convertor/pileup2cov/0.0.1" version="0.0.1" module="SynTViewTools/0.0.1" commands=""/>
-    <tool id="wig_to_bigWig" version="1.1.0" module="bedtools/2.19.1 BigWig_tools/v4" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bam_to_bigwig/bam_to_bigwig/0.1.0" version="0.1.0" module="bedtools/2.19.1 BigWig_tools/v4" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/pasteur_fasta_facilities/add_fasta_sequence_length/0.0.1" version="0.0.1" module="pf1-tools/0.1"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/pasteur_fasta_facilities/multifasta_sequence_extractor/0.99" version="0.99" module="fatools/0.99"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fastafilter/pe_filter/0.01" version="0.01" module="FastqProcessing/0.38.1"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fastafilter/ReadFastaFile/0.38" version="0.38" module="FastqProcessing/0.38.1"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/rankoptimizer/0.0.5" version="0.0.5" module="taxoptimizer/1.3"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/taxoptimizer/0.0.2" version="0.0.2" module="taxoptimizer/1.3"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/kronaExtract/0.0.2" version="0.0.2" module="taxoptimizer/1.3"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/mappinghsp4taxo/0.0.2" version="0.0.2" module="taxoptimizer/1.3"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/CD-HIT/0.25"  version="0.25" module="cd-hit/v4.6.1"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/CROP/0.1 beta" version="0.1 beta" module="crop/v1.33"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/GemErr/0.0.1" version="0.0.1" module="GemSIM/v1.6"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/GemReads/0.1 beta" version="0.1 beta" module="GemSIM/v1.6"  commands=""/>
-    <tool id="meme_meme" version="1.0.0" module="meme/4.5.0" commands=""/>
-    <tool id="clustalw" version="0.1" module="ClustalW/2.1"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_mapping_info/4.01.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_sequence_info/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_assembler/4.2" version="4.02" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_mapper/4.2" version="4.2" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_cas_to_sam/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_find_variations/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_unmapped_reads/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_mapper_legacy/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bcftools/BCF Tools Cat/1.0.0" version="1.0.0" module="samtools/0.1.19" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bcftools/bcftools_view/1.0.0" version="1.0.0" module="samtools/0.1.19" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bcftools/BCF Tools Index/1.0.0" version="1.0.0" module="samtools/0.1.19" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_genomecoveragebed_histogram/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_bamtobed/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_coveragebed_counts/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_mergebedgraph/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_multiintersectbed/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_intersectbed_bam/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_genomecoveragebed_bedgraph/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_recalibrator/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_depth_of_coverage/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_filtration/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_apply_recalibration/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_reduce_reads/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_haplotype_caller/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_eval/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_unified_genotyper/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_realigner_target_creator/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_combine/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_validate_variants/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_indel_realigner/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_base_recalibrator/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_print_reads/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_select/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_annotator/2.4-9" version="2.4-9" module="GenomeAnalysisTK/2.4-9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bowtie2/bowtie2/2.1.0" version="2.1.0" module="bowtie2/2.1.0" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/blast/formatdb/0.0.1" version="0.0.1" module="blast/2.2.26" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/bowtie/bowtie_wrapper/0.12.7" version="0.12.7" module="bowtie/0.12.7" commands=""/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/genbank_to_gene_protein_convertor/genbank_to_gene_prot_convertor/0.0.1" version="0.0.1" module="pf1-tools/0.1"  commands="genbank_convertor.py"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/snp_indel_convertor/reformat_snpEff_for_SynTView/0.0.1" version="0.0.1" module="SynTViewTools/0.0.1" commands="reformat_snpEff_for_SynTView.py"/>
+    <tool id="Sff_extractor" version="1.0.1" module="ssaha2/2" commands="ssaha2"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mpileup_convertor/pileup2cov/0.0.1" version="0.0.1" module="SynTViewTools/0.0.1" commands="pileup2cov.py"/>
+    <tool id="wig_to_bigWig" version="1.1.0" module="bedtools/2.19.1 BigWig_tools/v4" commands="wigToBigWig"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bam_to_bigwig/bam_to_bigwig/0.1.0" version="0.1.0" module="bedtools/2.19.1 BigWig_tools/v4" commands="bam_to_bigwig.py"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/pasteur_fasta_facilities/add_fasta_sequence_length/0.0.1" version="0.0.1" module="pf1-tools/0.1"  commands="compute_sequence_length.pl"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/pasteur_fasta_facilities/multifasta_sequence_extractor/0.99" version="0.99" module="fatools/0.99"  commands="faextract"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fastafilter/pe_filter/0.01" version="0.01" module="FastqProcessing/0.38.1"  commands="pe_filter.pl"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fastafilter/ReadFastaFile/0.38" version="0.38" module="FastqProcessing/0.38.1"  commands="ReadFastaFile"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/rankoptimizer/0.0.5" version="0.0.5" module="taxoptimizer/1.3"  commands="rankoptimizer"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/taxoptimizer/0.0.2" version="0.0.2" module="taxoptimizer/1.3"  commands="taxoptimizer;ptaxoptimizer"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/kronaExtract/0.0.2" version="0.0.2" module="taxoptimizer/1.3"  commands="kronaextract"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/taxonomy_analysis/mappinghsp4taxo/0.0.2" version="0.0.2" module="taxoptimizer/1.3"  commands="mappinghsp4taxoq"/>        
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/CD-HIT/0.25"  version="0.25" module="cd-hit/v4.6.1"  commands="cd-hit"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/CROP/0.1 beta" version="0.1 beta" module="crop/v1.33"  commands="CROPLinux"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/GemErr/0.0.1" version="0.0.1" module="GemSIM/v1.6"  commands="GemErr.py"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/afelten/microbiome_analyses/GemReads/0.1 beta" version="0.1 beta" module="GemSIM/v1.6"  commands="GemReads.py"/>     
+    <tool id="meme_meme" version="1.0.0" module="meme/4.5.0" commands="meme"/>
+    <tool id="clustalw" version="0.1" module="ClustalW/2.1"  commands="clustalw"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_mapping_info/4.01.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands="clc_mapping_info"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_sequence_info/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands="clc_sequence_info"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_assembler/4.2" version="4.02" module="clc-assembly-cell/4.2.0"  commands="clc_assembler"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_mapper/4.2" version="4.2" module="clc-assembly-cell/4.2.0"  commands="clc_mapper"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_cas_to_sam/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands="clc_cas_to_sam"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_find_variations/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands="clc_find_variations"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_unmapped_reads/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands="clc_unmapped_reads"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/clc_assembly_4/clc_mapper_legacy/4.010.83648" version="4.01.83648" module="clc-assembly-cell/4.2.0"  commands="clc_mapper_legacy"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bcftools/BCF Tools Cat/1.0.0" version="1.0.0" module="samtools/0.1.19" commands="bcftools cat"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bcftools/bcftools_view/1.0.0" version="1.0.0" module="samtools/0.1.19" commands="bcftools view"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bcftools/BCF Tools Index/1.0.0" version="1.0.0" module="samtools/0.1.19" commands="bcftools index"/>    
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_genomecoveragebed_histogram/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="genomeCoverageBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_bamtobed/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="bamToBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_coveragebed_counts/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="coverageBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_mergebedgraph/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="unionBedGraphs"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_multiintersectbed/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="multiIntersectBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_intersectbed_bam/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="intersectBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_pasteur/bedtools_genomecoveragebed_bedgraph/0.1.0" version="0.1.0" module="bedtools/2.19.1" commands="genomeCoverageBed"/>    
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_recalibrator/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK VariantRecalibrator;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_depth_of_coverage/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK DepthOfCoverage;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_filtration/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK VariantFiltration;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_apply_recalibration/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK ApplyRecalibration;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_reduce_reads/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK ReduceReads;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_haplotype_caller/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK HaplotypeCaller;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_eval/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK VariantEval;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_unified_genotyper/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK UnifiedGenotyper;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_realigner_target_creator/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK RealignerTargetCreator;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_combine/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK CombineVariants;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_validate_variants/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK ValidateVariants;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_indel_realigner/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK IndelRealigner;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_base_recalibrator/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK BaseRecalibrator;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_print_reads/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK PrintReads;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_select/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK SelectVariants;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gatk2/gatk2_variant_annotator/2.4-9" version="2.4-9" module="picard-tools/1.94 GenomeAnalysisTK/2.4-9" commands="GenomeAnalysisTK VariantAnnotator;CreateSequenceDictionary"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bowtie2/bowtie2/2.1.0" version="2.1.0" module="samtools/0.1.19 bowtie2/2.1.0" commands="bowtie2;bowtie2 index;samtools view;samtools sort"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/blast/formatdb/0.0.1" version="0.0.1" module="blast/2.2.26" commands="formatdb"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/bowtie/bowtie_wrapper/0.12.7" version="0.12.7" module="bowtie/0.12.7" commands="bowtie;bowtie-build"/>
     <!-- <tool id="bowtie_color_wrapper" version="0.12.7" module="bowtie/0.12.7" commands=""/> -->
-    <tool id="toolshed.g2.bx.psu.edu/repos/crs4/bwa_mem/bwa_mem/0.7.7" version="0.7.7" module="bwa/0.7.7"  commands=""/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/crs4/bwa_mem/bwa_mem/0.7.7" version="0.7.7" module="bwa/0.7.7"  commands="bwa mem;bwa index"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mbwa_map/mbwa_wrapper/0.7.4" version="0.7.4" module="bwa/0.7.4 ptools/0.99a" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/soap/2bwt-builder/1.1" version="1.1" module="soap/2.21" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/soap/soapAligner/2.21.1" version="2.21.1" module="soap/2.21" commands=""/>
