@@ -147,16 +147,16 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/circos/circos/0.64" version="0.64" module="circos/0.64"  commands=""/>  
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/tophat2/tophat2/2.0.10" version="2.0.10" module="bowtie2/2.1.0 samtools/0.1.19 tophat/2.0.10"  commands=""/>    
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/tophat/tophat/1.4.1.1" version="1.4.1.1" module="bowtie/0.12.7 samtools/0.1.19 tophat/1.4.1.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/mmonot/cov2html/COV2HTML/4.4" version="4.4" module="map2cov/4.4"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap_build/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap_snpindex/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gsnap/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap_iit_store/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands=""/>
-    <tool id="CONVERTER_fasta_to_2bit" version="1.0.0" module="blat/35" commands=""/>
-    <tool id="Extract genomic DNA 1" version="2.2.3" module="blat/35" commands=""/>
-    <tool id="CONVERTER_genbank_to_fasta" version="0.0.1" module="dbtools/0.99c" commands=""/>
-    <tool id="CONVERTER_bam_to_bigwig_0" version="1.0.0" module="bedtools/2.19.1 BigWig_tools/v4" commands=""/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/mmonot/cov2html/COV2HTML/4.4" version="4.4" module="map2cov/4.4"  commands="map2cov.py"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap_build/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands="iit_store; psl_splicesites; psl_introns; gtf_splicesites; gtf_introns; gff3_splicesites; gff3_introns; snpindex; cmetindex; atoiindex; get-genome"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap_snpindex/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands="snpindex; dbsnp_iit; iit_store"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gsnap/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands="gsnap"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap_iit_store/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands="iit_store; dbsnp_iit; gff3_introns; gff3_splicesites; gtf_introns; gtf_splicesites; psl_introns; psl_splicesites"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/gmap_gsnap/gmap/2013-01-23" version="2013-01-23" module="gmap/2013-01-23" commands="gmap"/>
+    <tool id="CONVERTER_fasta_to_2bit" version="1.0.0" module="blat/35" commands="faToTwoBit"/>
+    <tool id="Extract genomic DNA 1" version="2.2.3" module="blat/35" commands="faToTwoBit"/>
+    <tool id="CONVERTER_genbank_to_fasta" version="0.0.1" module="dbtools/0.99c" commands="flat2fasta"/>
+    <tool id="CONVERTER_bam_to_bigwig_0" version="1.0.0" module="bedtools/2.19.1 BigWig_tools/v4" commands="bedtools genomecov;  bedGraphToBigWig"/>
     <tool id="CONVERTER_bed_gff_or_vcf_to_bigwig_0" version="1.0.0" module="bedtools/2.19.1 BigWig_tools/v4" commands="bedtools genomecov;  bedGraphToBigWig"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/samtools_filter/0.1.19" version="0.1.19" module="samtools/0.1.19" commands="samtools (view)"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/express/express/1.3.1" version="1.3.1" module="eXpress/1.3.1" commands="express"/>
