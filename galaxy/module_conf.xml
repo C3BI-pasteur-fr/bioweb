@@ -157,7 +157,7 @@
     <tool id="Extract genomic DNA 1" version="2.2.3" module="blat/35" commands=""/>
     <tool id="CONVERTER_genbank_to_fasta" version="0.0.1" module="dbtools/0.99c" commands=""/>
     <tool id="CONVERTER_bam_to_bigwig_0" version="1.0.0" module="bedtools/2.19.1 BigWig_tools/v4" commands=""/>
-    <tool id="CONVERTER_bed_gff_or_vcf_to_bigwig_0" version="1.0.0" module="bedtools/2.19.1 BigWig_tools/v4" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/samtools_filter/0.1.19" version="0.1.19" module="samtools/0.1.19" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/express/express/1.3.1" version="1.3.1" module="eXpress/1.3.1" commands=""/>
+    <tool id="CONVERTER_bed_gff_or_vcf_to_bigwig_0" version="1.0.0" module="bedtools/2.19.1 BigWig_tools/v4" commands="bedtools genomecov;  bedGraphToBigWig"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/samtools_filter/0.1.19" version="0.1.19" module="samtools/0.1.19" commands="samtools (view)"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/express/express/1.3.1" version="1.3.1" module="eXpress/1.3.1" commands="express"/>
 </modules>
