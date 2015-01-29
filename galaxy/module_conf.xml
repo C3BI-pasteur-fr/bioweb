@@ -1,18 +1,18 @@
 <modules>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/peak2bed/peak2bed/1.0" version="1.0" module="Nebula" commands="peak2bed.pl"/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/maketssdist/makeStatsChIPSeq/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/makestatschipseq/makeStatsChIPSeq/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/findpeaks/peakcalling_findpeaks/4.0.9.2"  version="4.0.9.2" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/filtercontrolpeaks/filterControl/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fastafrombed/fastaFromBed/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/extractcentralregions/extractCentralRegions/1.0" version="1.0" module="Nebula"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/createcontrolsubset/createControlSubset/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/chipmunk_chiphorde/chipmunk_chiphorde/1.0.0"  version="1.0.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_intersectbed/bedtools_intersectBed/v2.10.0"  version="v2.10.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/annotatepeaks/annotatePeaks/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/annotategenes/annotateGenes/1.0"  version="1.0" module="Nebula" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mblastall/mblastall/2.2.26" version="2.2.26" module="blast/2.2.26 ptools/0.99a" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mblastall/formatdb/0.0.2" version="0.0.2" module="blast/2.2.26 ptools/0.99a" commands=""/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/maketssdist/makeTSSdist/1.0"  version="1.0" module="Nebula" commands="makeTSSdist.R;crossBedWithGenes.pl"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/makestatschipseq/makeStatsChIPSeq/1.0"  version="1.0" module="Nebula" commands="makeStatsChIPSeq.R"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/findpeaks/peakcalling_findpeaks/4.0.9.2"  version="4.0.9.2" module="Nebula" commands="FindPeaks;samtools view;samtools sort"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/filtercontrolpeaks/filterControl/1.0"  version="1.0" module="Nebula" commands="FilterPeaks"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fastafrombed/fastaFromBed/1.0"  version="1.0" module="Nebula" commands="fastaFromBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/extractcentralregions/extractCentralRegions/1.0" version="1.0" module="Nebula"  commands="extractCentralRegions.pl"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/createcontrolsubset/createControlSubset/1.0"  version="1.0" module="Nebula" commands="createControlSubSet.pl;samtools view;samtools sort"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/chipmunk_chiphorde/chipmunk_chiphorde/1.0.0"  version="1.0.0" module="ChIPMunk/v4.2 Nebula" commands="run_chiphorde4.rb;parseChipmunkOutput.pl"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/bedtools_intersectbed/bedtools_intersectBed/v2.10.0"  version="v2.10.0" module="bedtools/2.19.1" commands="intersectBed"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/annotatepeaks/annotatePeaks/1.0"  version="1.0" module="Nebula" commands="annotatePeaks.pl;createControlPeakSubSet.pl;catDist.R"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/annotategenes/annotateGenes/1.0"  version="1.0" module="Nebula" commands="geneAnnotation.pl;createControlPeakSubSet.pl;geneDist.R"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mblastall/mblastall/2.2.26" version="2.2.26" module="blast/2.2.26 ptools/0.99a" commands="mblastall"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mblastall/formatdb/0.0.2" version="0.0.2" module="blast/2.2.26 ptools/0.99a" commands="formatdb"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/genbank_to_gene_protein_convertor/genbank_to_gene_prot_convertor/0.0.1" version="0.0.1" module="pf1-tools/0.1"  commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/snp_indel_convertor/reformat_snpEff_for_SynTView/0.0.1" version="0.0.1" module="SynTViewTools/0.0.1" commands=""/>
     <tool id="Sff_extractor" version="1.0.1" module="ssaha/2.2" commands=""/>
