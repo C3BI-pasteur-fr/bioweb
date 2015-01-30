@@ -100,19 +100,19 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/cutadapt/cutadapt/1.6" version="1.6" module="cutadapt/1.6" commands=""/>
     <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/>        
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/fastqc/fastqc_toolshed/0.1" version="0.1" module="fastqc/0.10.1" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqcleaner/fqCleaner/0.4.1.1" version="0.4.1.1" module="fqtools/1.0a"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqquality/1.0" version="1.0" module="fqtools/1.0a" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqduplicate/1.0" version="1.0" module="fqtools/1.0a" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqextract/1.0.1" version="1.0.1" module="fqtools/1.0a ptools/0.99" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqseqname/1.0" version="1.0" module="fqtools/1.0a" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqseqpair/1.0" version="1.0" module="fqtools/1.0a" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fqconvert/fqconvert/1.0.0" version="1.0.0" module="fqtools/1.0a" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11" version="0.0.11" module="fastx_toolkit/0.0.13" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.0.1" version="0.0.1" module="HTSeq/0.5.3p9" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.6.1p1" version="0.6.1p1" module="HTSeq/0.6.1p1" commands=""/>    
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqcleaner/fqCleaner/0.4.1.1" version="0.4.1.1" module="fqtools/1.0a"  commands="fqCleaner.sh"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqquality/1.0" version="1.0" module="fqtools/1.0a" commands="fqquality"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqduplicate/1.0" version="1.0" module="fqtools/1.0a" commands="fqduplicate"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqextract/1.0.1" version="1.0.1" module="fqtools/1.0a ptools/0.99" commands="fqextract;pfqextract"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqseqname/1.0" version="1.0" module="fqtools/1.0a" commands="fqseqname"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqseqpair/1.0" version="1.0" module="fqtools/1.0a" commands="fqseqpair"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/fqconvert/fqconvert/1.0.0" version="1.0.0" module="fqtools/1.0a" commands="fqconvert"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_artifacts_filter"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11" version="0.0.11" module="fastx_toolkit/0.0.13" commands="fastx_renamer"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_reverse_complement"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_trimmer"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.0.1" version="0.0.1" module="HTSeq/0.5.3p9" commands="htseq-count"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.6.1p1" version="0.6.1p1" module="HTSeq/0.6.1p1" commands="htseq-count"/>    
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_filter/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_filter.sh"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_report/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_report.py"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_plot_thumbnails/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_plot_thumbnails.py"/>
