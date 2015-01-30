@@ -72,7 +72,7 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/bowtie/bowtie_wrapper/0.12.7" version="0.12.7" module="bowtie/0.12.7" commands="bowtie;bowtie-build"/>
     <!-- <tool id="bowtie_color_wrapper" version="0.12.7" module="bowtie/0.12.7" commands=""/> -->
     <tool id="toolshed.g2.bx.psu.edu/repos/crs4/bwa_mem/bwa_mem/0.7.7" version="0.7.7" module="bwa/0.7.7"  commands="bwa mem;bwa index"/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mbwa_map/mbwa_wrapper/0.7.4" version="0.7.4" module="bwa/0.7.4 ptools/0.99a" commands="mbwa index;mbwa aln;mbwa sampe;mbwa samse "/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mbwa_map/mbwa_wrapper/0.7.4" version="0.7.4" module="bwa/0.7.4 ptools/0.99a" commands="mbwa aln;mbwa index;mbwa sampe;mbwa samse "/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/soap/2bwt-builder/1.1" version="1.1" module="soap/2.21" commands="2bwt-builder"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/soap/soapAligner/2.21.1" version="2.21.1" module="soap/2.21" commands="soap"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/stampy_mapper/stampy_mapper/1.0.20" version="1.0.20" module="stampy/1.0.20"  commands="stampy.py"/>
