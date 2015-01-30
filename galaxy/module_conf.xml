@@ -82,15 +82,15 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ARRG/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar AddOrReplaceReadGroups.jar"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_FastqToSam/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="FastqToSam"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ReplaceSamHeader/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar ReplaceSamHeader.jar"/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/rgPicFixMate/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_SamToFastq/1.56.1" version="1.56.1" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ReorderSam/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardHsMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/rgPicardMarkDups/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardInsertSize/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardGCBiasMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_BamIndexStats/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardASMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/rgPicFixMate/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar FixMateInformation.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_SamToFastq/1.56.1" version="1.56.1" module="picard-tools/1.94" commands="SamToFastq"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ReorderSam/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="samtools faidx;java -jar CreateSequenceDictionary.jar;java -jar ReorderSam.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardHsMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar CalculateHsMetrics.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/rgPicardMarkDups/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar MarkDuplicates.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardInsertSize/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar CollectInsertSizeMetrics.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardGCBiasMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar CollectGcBiasMetrics.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_BamIndexStats/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar BamIndexStats.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardASMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar CollectAlignmentSummaryMetrics"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/alientrimmer/alienTrimmer/0.4.0" version="0.4.0" module="AlienTrimmer/0.4.0"  commands="AlienTrimmer"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/bam2fastq/bam2fastq/1.1.0" version="1.1.0" module="bam2fastq/1.1.0"  commands="bam2fastq"/>    
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/adapterremoval/clean_ngs/0.7" version="0.7" module="clean_ngs/0.7" commands="clean_ngs"/>
