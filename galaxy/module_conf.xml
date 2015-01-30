@@ -79,9 +79,9 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/stampy_mapper/stampy_indexer/1.0.20" version="1.0.20" module="stampy/1.0.20"  commands=""/>
     <tool id="peakcalling_macs" version="1.0.1" module="macs/1.3.7.1" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/rgEstLibComp/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ARRG/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_FastqToSam/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ReplaceSamHeader/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ARRG/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar AddOrReplaceReadGroups.jar"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_FastqToSam/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="FastqToSam"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ReplaceSamHeader/1.56.0" version="1.56.0" module="picard-tools/1.94" commands="java -jar ReplaceSamHeader.jar"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/rgPicFixMate/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_SamToFastq/1.56.1" version="1.56.1" module="picard-tools/1.94" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_ReorderSam/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
@@ -91,15 +91,15 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardGCBiasMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/picard_BamIndexStats/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/picard_pasteur_wrapper/PicardASMetrics/1.56.0" version="1.56.0" module="picard-tools/1.94" commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/alientrimmer/alienTrimmer/0.4.0" version="0.4.0" module="AlienTrimmer/0.4.0"  commands=""/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/bam2fastq/bam2fastq/1.1.0" version="1.1.0" module="bam2fastq/1.1.0"  commands=""/>    
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/adapterremoval/clean_ngs/0.7" version="0.7" module="clean_ngs/0.7" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1" version="1.0.1" module="fastx_toolkit/0.0.13" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/> 
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/cutadapt/cutadapt/1.6" version="1.6" module="cutadapt/1.6" commands=""/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands=""/>        
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/fastqc/fastqc_toolshed/0.1" version="0.1" module="fastqc/0.10.1" commands=""/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/alientrimmer/alienTrimmer/0.4.0" version="0.4.0" module="AlienTrimmer/0.4.0"  commands="AlienTrimmer"/>
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/bam2fastq/bam2fastq/1.1.0" version="1.1.0" module="bam2fastq/1.1.0"  commands="bam2fastq"/>    
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/adapterremoval/clean_ngs/0.7" version="0.7" module="clean_ngs/0.7" commands="clean_ngs"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1" version="1.0.1" module="fastx_toolkit/0.0.13" commands="fastx_clipper"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_quality_stats"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_collapser"/> 
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/cutadapt/cutadapt/1.6" version="1.6" module="cutadapt/1.6" commands="cutadapt"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_nucleotide_distribution_graph.sh"/>        
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/fastqc/fastqc_toolshed/0.1" version="0.1" module="fastqc/0.10.1" commands="python fastqc.py"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqcleaner/fqCleaner/0.4.1.1" version="0.4.1.1" module="fqtools/1.0a"  commands="fqCleaner.sh"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqquality/1.0" version="1.0" module="fqtools/1.0a" commands="fqquality"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/odoppelt/fqtools/fqduplicate/1.0" version="1.0" module="fqtools/1.0a" commands="fqduplicate"/>
