@@ -90,6 +90,9 @@ def build_metadata_two(tools_list, module_dict):
     return list_dict
 
 def map_database(connection):
+    """
+        Database mapping
+    """
     engine = create_engine(connection)
     metadata = MetaData()
     metadata.reflect(engine)
@@ -129,6 +132,9 @@ def jobs_count(database, engine, date_in, date_out):
     return jobs_stats
 
 def workflow_info(database, engine):
+    """
+        Workflow informations recovery
+    """
     workflows = {}
     workflow_step = database.workflow_step
     sele = select([workflow_step.tool_id, workflow_step.workflow_id, workflow_step.order_index]) \
