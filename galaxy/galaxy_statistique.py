@@ -15,6 +15,7 @@ from sqlalchemy.orm import sessionmaker
 import string
 import sys
 import json
+import pprint
 
 def build_xml_to_dict(module_conf_data):
     """
@@ -69,9 +70,8 @@ def build_metadata_two(tools_list, module_dict):
         #test if no module for this tool no build dictionnary
         if len(base_modules_names) != 0:
             metadata = json.loads(tool.metadata.decode("utf-8"))
+            pprint.pprint(metadata)
             for toolmeta in metadata["tools"]:
-                print  tool.tool_id
-                print toolmeta
                 if toolmeta["guid"] == tool.tool_id:
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
                         (base_modules_names[-1],  toolmeta["id"])
@@ -146,7 +146,27 @@ def workflow_info(database, engine):
                 workflows[row[1]].append((row[0],row[2]))
             else:
                 workflows[row[1]] = [(row[0],row[2])]
-    return workflows
+    inv_workflows = {tuple(v): k for k, v in workflows.items()}
+    return inv_workflows
+
+def config_parsing(configfile):
+    """
+        Parse the config file
+    """
+    config = ConfigParser.ConfigParser()
+    config.read(configfile)
+    db_connection = config.get('app:main', 'database_connection')
+    return db_connection
+
+def json_write(output_json, build_dict):
+    """
+       dump the json 
+    """
+    with open(output_json, 'w') as jsonfile:
+        try:
+            json.dump(build_dict, jsonfile, indent=4)
+        except SystemExit:
+            pass
             
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
@@ -155,26 +175,20 @@ if __name__ == "__main__":
     parser.add_argument("--date_out", help="format is YYYY-MM-DD")
     parser.add_argument("--module_file", help="module_conf_file")
     parser.add_argument("--bioweb_json_file", help="json bioweb output file")
-    
-    
     args = parser.parse_args()
-    config = ConfigParser.ConfigParser()
-    config.read(args.universefile)
-    database_connection = config.get('app:main', 'database_connection')
+    
+    
+    database_connection = config_parsing(args.universefile)
     database, engine = map_database(database_connection)
     STATISTIC_DB = jobs_count(database, engine, args.date_in, args.date_out)
     WORKFLOWS = workflow_info(database, engine)
     TOOLS_LIST = list_all_tools(database, engine)
     MODULE_DICT = build_xml_to_dict(args.module_file)
     BIOWEB_DICTS = build_metadata_two(TOOLS_LIST, MODULE_DICT)
-    with open(args.bioweb_json_file, 'w') as bioweb_file:
-        try:
-            json.dump(BIOWEB_DICTS, bioweb_file, indent=4)
-        except SystemExit:
-            pass
+    json_write(args.bioweb_json_file, BIOWEB_DICTS)
     
-    inv_WORKFLOWS = {tuple(v): k for k, v in WORKFLOWS.items()}
     
-    for key, value in inv_WORKFLOWS.items():
+    
+    for key, value in WORKFLOWS.items():
         print key, value
     
