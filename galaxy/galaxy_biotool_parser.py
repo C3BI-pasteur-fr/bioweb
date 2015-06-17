@@ -1,10 +1,11 @@
 """
 Created on Oct. 23, 2014
 
-@authors: Olivia Doppelt-Azeroual, Fabien Mareuil, Institut Pasteur, Paris
-@contacts: olivia.doppelt@pasteur.fr, fabien.mareuil@pasteur.fr
-@project: bioweb_galaxy
-@githuborganization: bioweb
+@author: Olivia Doppelt-Azeroual, CIB-C3BI, Institut Pasteur, Paris
+@author: Fabien Mareuil, CIB-C3BI, Institut Pasteur, Paris
+@contact: olivia.doppelt@pasteur.fr
+@project: toolinfowarehouse
+@githuborganization: edamontology
 """
 
 import sys
@@ -14,6 +15,7 @@ import pprint
 import string
 import argparse
 import json
+import yaml
 
 from bioblend.galaxy.client import ConnectionError
 from bioblend.galaxy import GalaxyInstance
@@ -24,18 +26,15 @@ def build_tool_name(tool_id):
     @tool_id: tool_id
     builds the tool_name regarding its toolshed id
    """
-    print tool_id
+    #print tool_id
     id_list = string.split(tool_id, '/')
     return string.join(id_list[-2:], '_')
 
 
 def get_source_registry(tool_id):
     try:
-    #    tool_id.index('toolshed')
         source = string.split(tool_id, '/')
-        for i in range(len(source) - 1):
-            if source[i].find('toolshed'):
-                return (source[i + 1] + '_' + source[i - 1])
+        return "https://" + '/'.join(source[0:len(source) - 2])
     except ValueError:
         print "ValueError:", tool_id
         return ""
@@ -49,100 +48,75 @@ def get_tool_name(tool_id):
         print "ValueError:", tool_id
         return ""
 
-def build_xml_to_dict(module_conf_data):
-    """
-        return a dictionnary of module_conf.xml
-    """
-    import xml.etree.ElementTree as ET
-    module_dict = {}
-    tree = ET.parse(module_conf_data)
-    root = tree.getroot()
-    for child in root:
-        module_dict[child.attrib['id']] = [string.split(child.attrib['module']), string.split(child.attrib['commands'])]
-    return module_dict
 
-def build_modules_names(tool,tools_dict):
+def format_description(description):
     """
-        return a list of base names for _id, package and packages_uses, the last
-        in the list is the most important
+    Test the first and last char of a description and replace them
+    with the format adapted to Elixir
     """
-    base = []
-    if tools_dict.has_key(tool[u'id']):
-        for module in tools_dict[tool[u'id']][0]:
-            name = module.replace("/","@")
-            #bof mais j'ai pas mieux
-            if module in ["ptools/0.99a", "ptools/0.99"]:
-                [name] + base
-            else:    
-                base.append(name)
-    else:
-        print >> sys.stderr, "________WARNING________\n%s not in module_conf.xml" % tool[u'id']
-    return base
-
-def build_metadata_two(tools_meta_data, module_conf_data):
-    """
-      builds general_dict
-      @param: tool_meta_data for one tool extracted from galaxy
-    """
-    tools_dict = build_xml_to_dict(module_conf_data)
-    list_dict = []
-    for tool in tools_meta_data:
-        if tools_dict.has_key(tool[u'id']): 
-            progs=tools_dict[tool[u'id']][1] 
+    try:
+        size = len(description)
+        if description[size - 1] == '.':
+            return description[0].upper() + description[1:size]
         else:
-            progs=[""]
-        base_modules_names = build_modules_names(tool,tools_dict)
-        gen_dict = {}
-        gen_dict[u'description'] = tool[u'description']
-        #test if no module for this tool no build dictionnary
-        if len(base_modules_names) != 0:
-            gen_dict[u'_id'] = 'galaxy@%s@%s' % (base_modules_names[-1], string.join(progs))
-            gen_dict[u'name'] = tool[u'id']
-            gen_dict[u'package'] = ['pack@%s' % base_modules_names[-1]]
-            gen_dict[u'packages_uses'] = ['pack@%s' % name for name in base_modules_names]
-            gen_dict[u'program'] = progs
-            gen_dict[u'type'] = 'galaxy'
-            gen_dict[u'url'] = 'https://galaxy.web.pasteur.fr/tool_runner?tool_id=%s' % tool[u'id']
-            list_dict.append(gen_dict)
-    return list_dict
+            return description[0].upper() + description[1:size] + '.'
+    except IndexError:
+        print description
+
 
 def build_metadata_one(tool_meta_data, url):
     """
       builds general_dict
       @param: tool_meta_data for one tool extracted from galaxy
     """
-    gen_dict = {k: tool_meta_data[k] for k in (u'version', u'description')}
-    gen_dict[u'name'] = tool_meta_data[u'id'] #get_tool_name(tool_meta_data[u'id'])
-    gen_dict[u'uses'] = [{"usesName": url,
+
+    if url == "https://galaxyapi.web.pasteur.fr":
+        ressourceName = "Galaxy@pasteur"
+        homepage = "https://galaxy.web.pasteur.fr"
+    else:
+        ressourceName = url
+        homepage = url
+#    gen_dict = {k: tool_meta_data[k] for k in (u'version', u'description')}
+
+    gen_dict = {}
+    gen_dict[u'version'] = tool_meta_data[u'version']
+    gen_dict[u'description'] = format_description(tool_meta_data[u'description'])
+    gen_dict[u'uses'] = [{"usesName": tool_meta_data[u'id'],
                           "usesHomepage": url,
                           "usesVersion": gen_dict[u'version']
         }]
-    gen_dict[u'collection'] = [url]
+    gen_dict[u'collection'] = ressourceName
     gen_dict[u'sourceRegistry'] = get_source_registry(tool_meta_data[u'id'])
-    gen_dict[u'softwareType'] = 'Tool'
+    gen_dict[u'resourceType'] = [{"term": "Tool (analysis)", "uri": "http://www.cbs.dtu.dk/ontology/resource_type/7"}]
     gen_dict[u'maturity'] = [{u'uri': "",
                             u'term': 'production'
                             }]
     gen_dict[u'platform'] = [{u'uri': "",
                               u'term': 'Linux'
                               }]
+    gen_dict[u'interface'] = [
+        {u'interfaceType': {
+            u'term': "WEB UI",
+            u'uri': "http://www.cbs.dtu.dk/ontology/interface_type/3"
+            }}
+        ]
+    gen_dict[u'contact'] = {
+        u'contactEmail': 'galaxy@pasteur.fr',
+        u'contactURL': '',
+        u'contactName': 'Institut Pasteur galaxy team',
+        u'contactRole': 'Computer Biologist'
+        }
     # these fields need to be filled with MODULE ressource at Pasteur
-    #gen_dict[u'language'] = []
-    #gen_dict[u'topic'] = []
-    #gen_dict[u'tag'] = []
-    #gen_dict[u'licence'] = []
-    #gen_dict[u'cost'] = []
-    #gen_dict[u'credits'] = []
-    #gen_dict[u'docs'] = []
-
-    try:
-        # citations are missing from the bioblend show tool
-        # need adjustments to consider them once they are
-        # included
-        gen_dict[u'publications'] = [tool_meta_data[u"citations"]]
-    except KeyError:
-        pass
-        #gen_dict[u'publications'] = []
+    gen_dict[u'language'] = []
+    gen_dict[u'topic'] = [{u'term': "", u'uri':"http://edamontology.org/topic_0003"}]
+    gen_dict[u'tag'] = []
+    gen_dict[u'license'] = []
+    gen_dict[u'cost'] = []
+    gen_dict[u'credits'] = []
+    gen_dict[u'docs'] = []
+    gen_dict[u'publications'] = []
+    gen_dict[u'homepage'] = homepage
+    gen_dict[u'accessibility'] = "private"
 
     return gen_dict
 
@@ -185,47 +159,104 @@ def build_case_inputs(case_dict, input):
     case_dict.update({i: j for i, j in dict_cases.items() if len(j) != 0})
 
 
-def build_input_for_json(list_inputs):
-    liste = []
-    inputs = {}
-    try:
-        try:
+def oldfind_edam_term(edam_name, edam_dict, cond):
+    """
+    edam_name: term to find in the edam_dict
+    edam_dict: edam
+    cond: term to not include is found because of edam_name
+    """
+    edam = ""
+    for k, value in edam_dict.items():
+        #print value[0], edam_name
+        if (re.match(value[0], edam_name, re.IGNORECASE)) is not None and (re.match(r""+cond, k)) is None:
+            return(k, value[1])
+        else:
+            edam = edam_name, "no uri"
+    return edam
 
-            for input in list_inputs:
+def edam_to_uri(edam):
+    uri = re.split("_|:",edam)
+    uri = "http://edamontology.org/{}_{:0>4d}".format(uri[1], int(uri[2]))
+    return uri
+
+def find_edam_format(format_name, edam_dict):
+    if format_name in edam_dict:
+        uri = edam_to_uri(edam_dict[format_name][0])
+        return uri
+    else:
+        uri = "no uri"
+        return uri
+    
+def find_edam_data(format_name, edam_dict):
+    if format_name in edam_dict:
+        list_uri = []
+        temp_list = edam_dict[format_name][1:]
+        if "EDAM_data:0006" in temp_list and len(temp_list) > 1:
+            temp_list.remove("EDAM_data:0006")
+        for edam_data in temp_list:
+            if len(temp_list) == 1:
+                uri = edam_to_uri(edam_data)
+                list_uri.append(uri)
+        return ", ".join(list_uri)
+    else:
+        uri = "no uri"
+        return uri
+    
+def build_input_for_json(list_inputs, edam_dict):
+    liste = []
+    #inputs = {}
+    #try:
+    #    try:
+
+    for input in list_inputs:
                 inputDict = {}
-                inputDict[u'dataType'] = {u'uri': "", u'term': input[u'type']}
 
                 try:
-                    formatList = string.split(input[u'format'], ',')
-                except AttributeError:
+                    formatList = input[u'extensions']
+                except KeyError, e:
+                    print e, "error 1"
                     formatList = ["AnyFormat"]
-
+                    
+                inputDict[u'dataType'] = []
                 list_format = []
                 for format in formatList:
-                    dict_format = {u'uri': "", u'term': format}
+                    uri = find_edam_format(format, edam_dict)
+                    dict_format = {u'uri': uri, u'term': ''}
+                    uri = find_edam_data(format, edam_dict)
+                    inputDict[u'dataType'] = {u'uri': uri, u'term': ''}
                     list_format.append(dict_format)
-                inputDict[u'dataFormat'] = list_format
-                inputDict[u'dataHandle'] = input[u'label']
-                liste.append(inputDict)
 
-        except KeyError:
-                inputDict[u'dataType'] = {u'uri': "", u'term': input[u'type']}
+                inputDict[u'dataFormat'] = list_format
+                inputDict[u'dataHandle'] = ", ".join(input[u'extensions'])
+                liste.append(inputDict)
+                #pprint.pprint(inputDict)
+
+    """
+        except KeyError, e:
+                print e, "error 2"
                 formatList = input[u'extensions']
                 for format in formatList:
-                    inputDict[u'dataFormat'].append({u'uri': "", u'term': format})
-                inputDict[u'dataHandle'] = input[u'label']
+                    uri = find_edam_data(format, edam_dict)
+                    inputDict[u'dataType'].append({u'uri':uri, u'term': ''})
+                    uri = find_edam_format(format, edam_dict)
+                    inputDict[u'dataFormat'].append({u'uri': uri, u'term': ''})
+
+                inputDict[u'dataHandle'] = ", ".join(input[u'extensions'])
                 liste.append(inputDict)
 
-    except KeyError:
-        inputDict[u'dataType'] = {u'uri': "", u'term': input[u'type']}
-        inputDict[u'dataFormat'] = []
-        inputDict[u'dataHandle'] = input[u'label']
+    except KeyError, e:
+        print e, "error 3"
+        uri = find_edam_data(input[u'type'], edam_dict)
+        inputDict[u'dataType'] = {u'uri': uri, u'term': ''}
+        uri = find_edam_format(input[u'type'], edam_dict)
+        inputDict[u'dataFormat'] = [{u'uri': uri, u'term': ''}]
+        inputDict[u'dataHandle'] = ", ".join(input[u'extensions'])
         liste.append(inputDict)
-
+    """
     return liste
 
 
-def build_fonction_dict(tool_meta_data):
+def build_fonction_dict(tool_meta_data, edam_dict):
     """
     builds function dict
     2 steps for inputs, get only the data format and
@@ -247,120 +278,131 @@ def build_fonction_dict(tool_meta_data):
         if input[u'type'] == u'repeat':
             for rep in input[u'inputs']:
                 if rep[u'type'] == u'data':
-                    print 'repeeeeeeaaaaaatttt'
                     inputs_fix.append(rep)
                 elif rep[u'type'] == "conditional":
                     build_case_inputs(dict_cases, rep)
         if input[u'type'] == "conditional":
             build_case_inputs(dict_cases, input)
 
-
 #__________________INPUT DICT _________________________
     if len(dict_cases) == 0:
-        inputs["input_fix"] = build_input_for_json(inputs_fix)
+        inputs["input_fix"] = build_input_for_json(inputs_fix, edam_dict)
     else:
         for key, case in dict_cases.iteritems():
-            inputs[key] = build_input_for_json(case) + build_input_for_json(inputs_fix)
-
+            inputs[key] = build_input_for_json(case, edam_dict) + build_input_for_json(inputs_fix, edam_dict)
 
 #_____________OUTPUT DICT_______________________________________
 
     for output in tool_meta_data[u'outputs']:
         outputDict = {}
-        outputDict[u'dataType'] = []
-        outputDict[u'dataFormat'] = {u'uri': "", u'term': output[u'format']}
-        outputDict[u'dataHandle'] = output[u'name']
+        print output[u'format']
+        uri = find_edam_data(output[u'format'], edam_dict)
+        print uri
+        outputDict[u'dataType'] = {u'uri': uri, u'term': ''}
+        uri = find_edam_format(output[u'format'], edam_dict)
+        outputDict[u'dataFormat'] = {u'uri': uri, u'term': ''}
+        outputDict[u'dataHandle'] = output[u'format']
         outputs.append(outputDict)
 
     if inputs.get("input_fix") is None:
         for input_case_name, item in inputs.items():
             func_dict = {}
-            func_dict[u'description'] = tool_meta_data[u'description']
-            func_dict[u'functionName'] = []
+            func_dict[u'description'] = format_description(tool_meta_data[u'description'])
+            func_dict[u'functionName'] = [{"uri":"http://edamontology.org/operation_0004"}]
             func_dict[u'output'] = outputs
             func_dict[u'input'] = item
-            func_dict[u'functionHandle'] = 'MainFunction'
-            func_dict[u'annot'] = input_case_name
+            func_dict[u'functionHandle'] = input_case_name
+            #func_dict[u'annot'] = input_case_name
             func_list.append(func_dict)
     else:
-        func_dict[u'description'] = tool_meta_data[u'description']
+        func_dict[u'description'] = format_description(tool_meta_data[u'description'])
         func_dict[u'functionName'] = []
         func_dict[u'output'] = outputs
         func_dict[u'input'] = inputs[u"input_fix"]
         func_dict[u'functionHandle'] = 'MainFunction'
         func_list.append(func_dict)
-#        print("TYPE FUNC DICT:", type(func_dict))
-
+    #pprint.pprint(func_list)
     return func_list
 
+def extract_edam_from_galaxy(mapping_edam = {}):
+    return mapping_edam
+
+def build_edam_dict(edam_file):
+    import yaml
+    edam_dict = extract_edam_from_galaxy()
+    with open(edam_file, "r") as file_edam:
+        temp_edam_dict = yaml.load(file_edam)
+    for key, value in temp_edam_dict.iteritems():
+        if key in edam_dict:
+            edam_dict[key] = edam_dict[key] + temp_edam_dict[key][1:]
+        else:
+            edam_dict[key] = temp_edam_dict[key]
+    return edam_dict
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Galaxy instance tool\
         parsing, for integration in biotools/bioregistry")
 
-    parser.add_argument("--galaxy_url", help="url to the analyzed galaxy instance")
+    parser.add_argument("--galaxy_url", help="url to the analyze \
+        galaxy instance")
+
     parser.add_argument("--api_key", help="galaxy user api key")
+
     parser.add_argument("--tool_dir", help="directory to store the tool\
         json (needs to be created before running the script")
-    parser.add_argument("--modulegalaxy_file", help="module_conf.xml file")
-    parser.add_argument("--bioweb_json_file", help="json bioweb output file")
-    parser.add_argument("--collection_name", help="collection name matchine the galaxy url")
+
+    parser.add_argument("--collection_name", help="collection name \
+        matchine the galaxy url")
+
+    parser.add_argument("--edam_file", help="edam own file to create  \
+        the edam_dict")
+
+    parser.add_argument('--login', help="registry login")
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
 
     args = parser.parse_args()
     gi = GalaxyInstance(args.galaxy_url, key=args.api_key)
 
     tools = gi.tools.get_tools()
+
     tools_meta_data = []
     new_dict = {}
     json_ext = '.json'
 
-    for i in tools:
+    edam_dict = build_edam_dict(args.edam_file)
+
+    for i in tools[0:20]:
         try:
             # improve this part, important to be able to get all tool from any toolshed
             if not i['id'].find("galaxy.web.pasteur.fr") or not i['id'].find("testtoolshed.g2.bx.psu.edu") or not i['id'].find("toolshed.g2.bx.psu.edu"):
                 tool_metadata = gi.tools.show_tool(tool_id=i['id'], io_details=True, link_details=True)
+                #pprint.pprint(tool_metadata)
                 tools_meta_data.append(tool_metadata)
           #  else:
            #     print i['id']
         except ConnectionError:
             print "ConnectionError"
             pass
-    
-    if args.modulegalaxy_file:
-        bioweb_dicts = build_metadata_two(tools_meta_data, args.modulegalaxy_file)
-        with open(args.bioweb_json_file,'w') as bioweb_file:
-            try:
-                json.dump(bioweb_dicts, bioweb_file, indent=4)
-            except SystemExit:
-                    pass
-    
-    if args.tool_dir:
-        for tool in tools_meta_data:
-            tool_name = build_tool_name(tool[u'id'])
-            try:
 
-                function = build_fonction_dict(tool)
-                #print "TYPE FUNCTION:", type(function)
-                if len(function) > 1:
-                    print "THERE WILL BE  " + str(len(function)) + "json"
-                    for func in function:
-                        pprint.pprint(func)
-                        #inputs = func[u"input"]
-                        name = re.sub("[\.\,\:;\(\)\./]", "_", func[u'annot'], 0, 0)
-                        with open(os.path.join(os.getcwd(), args.tool_dir, tool_name + "_"+ name + json_ext), 'w') as tool_file:
-                            general_dict = build_metadata_one(tool, args.galaxy_url)
-                            general_dict["function"] = func
-                            json.dump(general_dict, tool_file, indent=4)
-                            tool_file.close()
- 
-                else:
-                    with open(os.path.join(os.getcwd(), args.tool_dir, tool_name + json_ext), 'w') as tool_file:
-                        general_dict = build_metadata_one(tool, args.galaxy_url)
-                        general_dict["function"] = function[0]
-                        json.dump(general_dict, tool_file, indent=4)
-                        tool_file.close()
+    for tool in tools_meta_data:
+        tool_name = build_tool_name(tool[u'id'])
+        try:
 
+            function = build_fonction_dict(tool, edam_dict)
+            with open(os.path.join(os.getcwd(), args.tool_dir, tool_name + json_ext), 'w') as tool_file:
+                general_dict = build_metadata_one(tool, args.galaxy_url)
+                general_dict[u"function"] = function
+                general_dict[u"name"] = get_tool_name(tool[u'id'])
+                json.dump(general_dict, tool_file, indent=4)
 
-            except SystemExit:
-                pass
+        except IOError:
+            os.mkdir(os.path.join(os.getcwd(),args.tool_dir))
+            with open(os.path.join(os.getcwd(), args.tool_dir, tool_name + json_ext), 'w') as tool_file:
+                general_dict = build_metadata_one(tool, args.galaxy_url)
+                general_dict[u"function"] = function
+                general_dict[u"name"] = get_tool_name(tool[u'id'])
+                json.dump(general_dict, tool_file, indent=4)
