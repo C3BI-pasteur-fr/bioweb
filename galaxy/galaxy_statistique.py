@@ -11,7 +11,7 @@ import argparse
 import psycopg2
 import string
 import json
-from sqlalchemy import create_engine, select, between, MetaData, func, desc
+from sqlalchemy import create_engine, select, between, MetaData, func, desc, distinct
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
 from pwd import getpwnam, getpwuid
@@ -52,19 +52,26 @@ def jobs_count(database, engine, date_in, date_out):
     """
     jobs_stats_bytools = []
     jobs_stats_byusers = []
+    jobs_stats_usersbytools = []
+    
     job, galaxy_user= database.job, database.galaxy_user
 
     sele= select([job.tool_id, func.count(job.tool_id)]) \
-        .where(between(job.create_time, date_in, date_out)) \
-        .group_by(job.tool_id) \
-        .order_by(desc(func.count(job.tool_id)))
+            .where(between(job.create_time, date_in, date_out)) \
+            .group_by(job.tool_id) \
+            .order_by(desc(func.count(job.tool_id)))
 
     sele2= select([galaxy_user.email, func.count(job.user_id)]) \
             .where(galaxy_user.id==job.user_id) \
             .where(between(job.create_time, date_in, date_out)) \
             .group_by(galaxy_user.email) \
             .order_by(desc(func.count(job.user_id)))
-
+            
+    sele3= select([job.tool_id, func.count(distinct(job.user_id))]) \
+            .where(between(job.create_time, date_in, date_out)) \
+            .group_by(job.tool_id) \
+            .order_by(desc(func.count(distinct(job.user_id))))
+           
     with engine.connect() as conn:
         result = conn.execute(sele)
         for row in result:
@@ -73,10 +80,14 @@ def jobs_count(database, engine, date_in, date_out):
         result = conn.execute(sele2)
         for row in result:
            jobs_stats_byusers.append(row)
-
+    with engine.connect() as conn:
+        result = conn.execute(sele3)
+        for row in result:
+           jobs_stats_usersbytools.append(row)
+                 
     bygroup =  groupby(jobs_stats_byusers)
 
-    return jobs_stats_bytools, jobs_stats_byusers, bygroup
+    return jobs_stats_bytools, jobs_stats_byusers, bygroup, jobs_stats_usersbytools 
 
 def config_parsing(configfile):
     """
@@ -109,10 +120,10 @@ if __name__ == "__main__":
 
     database_connection = config_parsing(args.universefile)
     database, engine = map_database(database_connection)
-    STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = jobs_count(database, engine, args.date_in, args.date_out)
+    STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS, STAT_USERSBYTOOLS = jobs_count(database, engine, args.date_in, args.date_out)
 
     
-    STAT_DIC = {"STAT_BYTOOLS" : [], "STAT_BYUSERS" : [], "STAT_BYGROUPS" : STAT_BYGROUPS}
+    STAT_DIC = {"STAT_BYTOOLS" : [], "STAT_BYUSERS" : [], "STAT_BYGROUPS" : STAT_BYGROUPS, "USERS_BY_TOOLS" : []}
     for row in STAT_BYTOOLS:
         listrow = row.values()
         STAT_DIC["STAT_BYTOOLS"].append((listrow[0], listrow[1]))
@@ -123,6 +134,10 @@ if __name__ == "__main__":
         print "%s\t%d" % (listrow[0], listrow[1])
     for row in STAT_BYGROUPS:
         print "%s\t%d" % (row[0], row[1])
+    for row in STAT_USERSBYTOOLS:
+        listrow = row.values()
+        STAT_DIC["USERS_BY_TOOLS"].append((listrow[0], listrow[1]))
+        print "%s\t%d" % (listrow[0], listrow[1])
         
     json_write(args.bioweb_json_file, STAT_DIC)
     
