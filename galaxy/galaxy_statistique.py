@@ -67,6 +67,7 @@ def jobs_count(database, engine, date_in, date_out):
             .group_by(galaxy_user.email) \
             .order_by(desc(func.count(job.user_id)))
             
+#    sele3= select([job.tool_id, func.count(distinct(job.user_id)), func.min(job.create_time)]) \
     sele3= select([job.tool_id, func.count(distinct(job.user_id))]) \
             .where(between(job.create_time, date_in, date_out)) \
             .group_by(job.tool_id) \
@@ -136,6 +137,8 @@ if __name__ == "__main__":
         print "%s\t%d" % (row[0], row[1])
     for row in STAT_USERSBYTOOLS:
         listrow = row.values()
+#        STAT_DIC["USERS_BY_TOOLS"].append((listrow[0], listrow[1], listrow[2].strftime("%d/%m/%y")))
+#        print "%s\t%d\t%s" % (listrow[0], listrow[1], listrow[2].strftime("%d/%m/%y"))
         STAT_DIC["USERS_BY_TOOLS"].append((listrow[0], listrow[1]))
         print "%s\t%d" % (listrow[0], listrow[1])
         
