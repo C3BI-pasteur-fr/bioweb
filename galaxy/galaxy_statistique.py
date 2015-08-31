@@ -46,6 +46,38 @@ def groupby(users_stat):
             pass
     return sorted(stat_group.items(), key=itemgetter(1))
 
+def build_xml_to_dict(module_conf_data):
+   """
+       return a dictionnary of module_conf.xml
+   """
+   import xml.etree.ElementTree as ET
+   module_dict = {}
+   tree = ET.parse(module_conf_data)
+   root = tree.getroot()
+   for child in root:
+       module_dict[child.attrib['id']] = [
+       string.split(child.attrib['module']),
+       string.split(child.attrib['commands'], ";")]
+   return module_dict
+
+def add_notused_tools(module_conf, stat_tools):
+    """
+        add tools of the module conf file not used
+    """
+    dict_module = build_xml_to_dict(module_conf)
+    new_stat = []
+    tmp_list = []
+    for row in stat_tools:
+        listrow = row.values()
+        tmp_list.append(listrow[0])
+        new_stat.append(listrow)
+
+    for mod in dict_module.keys():   
+        if mod not in tmp_list:
+            new_stat.append([mod, 0])
+    return new_stat
+
+
 def jobs_count(database, engine, date_in, date_out):
     """
         build a count list of tools using by user
@@ -135,12 +167,13 @@ if __name__ == "__main__":
         print "%s\t%d" % (listrow[0], listrow[1])
     for row in STAT_BYGROUPS:
         print "%s\t%d" % (row[0], row[1])
+
+    STAT_USERSBYTOOLS = add_notused_tools(args.module_file, STAT_USERSBYTOOLS)
     for row in STAT_USERSBYTOOLS:
-        listrow = row.values()
 #        STAT_DIC["USERS_BY_TOOLS"].append((listrow[0], listrow[1], listrow[2].strftime("%d/%m/%y")))
 #        print "%s\t%d\t%s" % (listrow[0], listrow[1], listrow[2].strftime("%d/%m/%y"))
-        STAT_DIC["USERS_BY_TOOLS"].append((listrow[0], listrow[1]))
-        print "%s\t%d" % (listrow[0], listrow[1])
+        STAT_DIC["USERS_BY_TOOLS"].append((row[0], row[1]))
+        print "%s\t%d" % (row[0], row[1])
         
     json_write(args.bioweb_json_file, STAT_DIC)
     
