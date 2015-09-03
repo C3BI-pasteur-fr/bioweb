@@ -56,8 +56,8 @@ def build_xml_to_dict(module_conf_data):
    root = tree.getroot()
    for child in root:
        module_dict[child.attrib['id']] = [
-       string.split(child.attrib['module']),
-       string.split(child.attrib['commands'], ";")]
+       string.split(child.attrib['module'])]#,
+#       string.split(child.attrib['commands'], ";")]
    return module_dict
 
 def add_notused_tools(module_conf, stat_tools):
@@ -85,6 +85,7 @@ def jobs_count(database, engine, date_in, date_out):
     jobs_stats_bytools = []
     jobs_stats_byusers = []
     jobs_stats_usersbytools = []
+    current_userid = []
     
     job, galaxy_user= database.job, database.galaxy_user
 
@@ -104,6 +105,10 @@ def jobs_count(database, engine, date_in, date_out):
             .where(between(job.create_time, date_in, date_out)) \
             .group_by(job.tool_id) \
             .order_by(desc(func.count(distinct(job.user_id))))
+
+    sele4= select([job.user_id]) \
+            .where(between(job.create_time, date_in, date_out)) \
+            .group_by(job.user_id)
            
     with engine.connect() as conn:
         result = conn.execute(sele)
@@ -117,6 +122,11 @@ def jobs_count(database, engine, date_in, date_out):
         result = conn.execute(sele3)
         for row in result:
            jobs_stats_usersbytools.append(row)
+    with engine.connect() as conn:
+        result = conn.execute(sele4)
+        for row in result:
+            current_userid.append(row)
+    print current_userid, len(current_userid)
                  
     bygroup =  groupby(jobs_stats_byusers)
 
@@ -160,20 +170,20 @@ if __name__ == "__main__":
     for row in STAT_BYTOOLS:
         listrow = row.values()
         STAT_DIC["STAT_BYTOOLS"].append((listrow[0], listrow[1]))
-        print "%s\t%d" % (listrow[0], listrow[1])
+#        print "%s\t%d" % (listrow[0], listrow[1])
     for row in STAT_BYUSERS:
         listrow = row.values()
         STAT_DIC["STAT_BYUSERS"].append((listrow[0], listrow[1]))
-        print "%s\t%d" % (listrow[0], listrow[1])
+#        print "%s\t%d" % (listrow[0], listrow[1])
     for row in STAT_BYGROUPS:
-        print "%s\t%d" % (row[0], row[1])
+#        print "%s\t%d" % (row[0], row[1])
 
     STAT_USERSBYTOOLS = add_notused_tools(args.module_file, STAT_USERSBYTOOLS)
     for row in STAT_USERSBYTOOLS:
 #        STAT_DIC["USERS_BY_TOOLS"].append((listrow[0], listrow[1], listrow[2].strftime("%d/%m/%y")))
 #        print "%s\t%d\t%s" % (listrow[0], listrow[1], listrow[2].strftime("%d/%m/%y"))
         STAT_DIC["USERS_BY_TOOLS"].append((row[0], row[1]))
-        print "%s\t%d" % (row[0], row[1])
+#        print "%s\t%d" % (row[0], row[1])
         
     json_write(args.bioweb_json_file, STAT_DIC)
     
