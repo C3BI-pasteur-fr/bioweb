@@ -64,18 +64,23 @@ def build_metadata_two(tools_list, module_dict):
     """
     list_dict = []
     for tool in tools_list:
-        if module_dict.has_key(tool.tool_id):
-            progs = module_dict[tool.tool_id][1]
-        else:
-            progs = [""]
         base_modules_names = build_modules_names(tool, module_dict)
         gen_dict = {}
         #test if no module for this tool no build dictionnary
         if len(base_modules_names) != 0:
             metadata = json.loads(tool.metadata.decode("utf-8"))
-            pprint.pprint(metadata)
+            #pprint.pprint(metadata["tools"])
+
             for toolmeta in metadata["tools"]:
                 if toolmeta["guid"] == tool.tool_id:
+                    if module_dict.has_key(tool.tool_id):
+                        if len(module_dict[tool.tool_id][0]) == 1:
+                            print"NEW", metadata["tools"]
+                            progs = ["%s@%s@%s" % (command, module_dict[tool.tool_id][0][0].replace('/','@'), toolmeta["id"]) for command in module_dict[tool.tool_id][1]]
+                        else:
+                            progs = [command for command in module_dict[tool.tool_id][1]]
+                    else:
+                        progs = [""]
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
                         (base_modules_names[-1],  toolmeta["id"])
                     gen_dict[u'description'] = toolmeta["description"]
@@ -88,7 +93,8 @@ def build_metadata_two(tools_list, module_dict):
             gen_dict[u'program'] = progs
             gen_dict[u'type'] = 'galaxy'
             gen_dict[u'url'] = \
-                'https://galaxy.web.pasteur.fr/tool_runner?tool_id=%s' % tool.tool_id
+                'https://galaxy.web.pasteur.fr/root?tool_id=%s' % tool.tool_id
+            gen_dict[u'topic'] = []
             list_dict.append(gen_dict)
     return list_dict
 
@@ -115,6 +121,7 @@ def list_all_tools(database, engine):
         result = conn.execute(sele)
         for row in result:
             list_tools.append(row)
+    #pprint.pprint(list_tools)
     return list_tools
 
 def groupby(users_stat):
@@ -220,27 +227,27 @@ if __name__ == "__main__":
 
     database_connection = config_parsing(args.universefile)
     database, engine = map_database(database_connection)
-    STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = jobs_count(database, engine, args.date_in, args.date_out)
+    #STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = jobs_count(database, engine, args.date_in, args.date_out)
     #WORKFLOWS = workflow_info(database, engine)
-    #TOOLS_LIST = list_all_tools(database, engine)
-    #MODULE_DICT = build_xml_to_dict(args.module_file)
-    #BIOWEB_DICTS = build_metadata_two(TOOLS_LIST, MODULE_DICT)
-    #json_write(args.bioweb_json_file, BIOWEB_DICTS)
+    TOOLS_LIST = list_all_tools(database, engine)
+    MODULE_DICT = build_xml_to_dict(args.module_file)
+    BIOWEB_DICTS = build_metadata_two(TOOLS_LIST, MODULE_DICT)
+    json_write(args.bioweb_json_file, BIOWEB_DICTS)
 
     
-    STAT_DIC = {"STAT_BYTOOLS" : [], "STAT_BYUSERS" : [], "STAT_BYGROUPS" : STAT_BYGROUPS}
-    for row in STAT_BYTOOLS:
-        listrow = row.values()
-        STAT_DIC["STAT_BYTOOLS"].append((listrow[0], listrow[1]))
-        print "%s\t%d" % (listrow[0], listrow[1])
-    for row in STAT_BYUSERS:
-        listrow = row.values()
-        STAT_DIC["STAT_BYUSERS"].append((listrow[0], listrow[1]))
-        print "%s\t%d" % (listrow[0], listrow[1])
-    for row in STAT_BYGROUPS:
-        print "%s\t%d" % (row[0], row[1])
+    #STAT_DIC = {"STAT_BYTOOLS" : [], "STAT_BYUSERS" : [], "STAT_BYGROUPS" : STAT_BYGROUPS}
+    #for row in STAT_BYTOOLS:
+    #    listrow = row.values()
+    #    STAT_DIC["STAT_BYTOOLS"].append((listrow[0], listrow[1]))
+    #    print "%s\t%d" % (listrow[0], listrow[1])
+    #for row in STAT_BYUSERS:
+    #    listrow = row.values()
+    #    STAT_DIC["STAT_BYUSERS"].append((listrow[0], listrow[1]))
+    #    print "%s\t%d" % (listrow[0], listrow[1])
+    #for row in STAT_BYGROUPS:
+    #    print "%s\t%d" % (row[0], row[1])
         
-    json_write(args.bioweb_json_file, STAT_DIC)
+    #json_write(args.bioweb_json_file, STAT_DIC)
     
     #    listrow = row.values()
     #    if listrow[0] in tooldict:
