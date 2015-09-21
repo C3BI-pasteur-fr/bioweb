@@ -6,21 +6,21 @@ Created on Jan. 30, 2015
 @project: bioweb_galaxy
 @githuborganization: bioweb
 """
-import ConfigParser
-import argparse
-import psycopg2
+
 from sqlalchemy import create_engine, select, between, MetaData, func, desc
 from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import sessionmaker
 from pwd import getpwnam, getpwuid
 from grp import getgrgid
-from operator import itemgetter
+from operator import itemgetterimport, ConfigParser
+import argparse
 import string
 import sys
 import json
 import pprint
 
-def build_xml_to_dict(module_conf_data):
+
+
+def build_XML_to_dict(module_conf_data):
     """
         return a dictionnary of module_conf.xml
     """
@@ -58,7 +58,22 @@ def build_modules_names(tool, tools_dict):
             % (tool[0], tool[1])
     return base
 
-def build_metadata_two(tools_list, module_dict):
+def build_programs_names(modules, toolid):
+    """
+        build list of programs with prog@package@version@tool_id format
+    """
+    if modules.has_key(toolid):
+        if len(modules) == 1:
+            programs = ["%s@%s@%s" % (command,  \
+                modules[toolid][0][0].replace('/', '@'), \
+                toolid) for command in modules[toolid][1]]
+        else:
+            programs = [command for command in modules[toolid][1]]
+    else:
+        programs = [""]
+    return programs
+
+def build_metadata(tools_list, module_dict):
     """
       builds general_dict
     """
@@ -73,18 +88,11 @@ def build_metadata_two(tools_list, module_dict):
 
             for toolmeta in metadata["tools"]:
                 if toolmeta["guid"] == tool.tool_id:
-                    if module_dict.has_key(tool.tool_id):
-                        if len(module_dict[tool.tool_id][0]) == 1:
-                            print"NEW", metadata["tools"]
-                            progs = ["%s@%s@%s" % (command, module_dict[tool.tool_id][0][0].replace('/','@'), toolmeta["id"]) for command in module_dict[tool.tool_id][1]]
-                        else:
-                            progs = [command for command in module_dict[tool.tool_id][1]]
-                    else:
-                        progs = [""]
+                    progs = build_programs_names(module_dict, toolmeta["id"])
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
-                        (base_modules_names[-1],  toolmeta["id"])
+                        (base_modules_names[-1], toolmeta["id"])
                     gen_dict[u'description'] = toolmeta["description"]
-                    gen_dict[u'name']  = toolmeta["name"]
+                    gen_dict[u'name'] = toolmeta["name"]
                     gen_dict[u'version'] = toolmeta["version"]
                     gen_dict[u'galaxy_id'] = toolmeta["guid"]
             gen_dict[u'package'] = ['pack@%s' % base_modules_names[-1]]
@@ -102,22 +110,27 @@ def map_database(connection):
     """
         Database mapping
     """
-    engine = create_engine(connection)
+    eng = create_engine(connection)
     metadata = MetaData()
     metadata.reflect(engine)
-    Base = automap_base(metadata=metadata)
-    Base.prepare()
-    return Base.classes, engine
+    base = automap_base(metadata=metadata)
+    base.prepare()
+    return base.classes, eng
 
-def list_all_tools(database, engine):
+def list_all_tools(datab, eng):
     """
         build a list of tools in galaxy
     """
     list_tools = []
-    tool_version, tool_shed_repository= database.tool_version, database.tool_shed_repository
-    sele = select([tool_version.tool_id, tool_shed_repository.status, tool_shed_repository.tool_shed, tool_shed_repository.owner, tool_shed_repository.deleted, tool_shed_repository.uninstalled, tool_shed_repository.metadata, tool_shed_repository.description, tool_shed_repository.name]) \
+    tool_version, tool_shed_repository = datab.tool_version, \
+                                        datab.tool_shed_repository
+    sele = select([tool_version.tool_id, tool_shed_repository.status, \
+        tool_shed_repository.tool_shed, tool_shed_repository.owner, \
+        tool_shed_repository.deleted, tool_shed_repository.uninstalled, \
+        tool_shed_repository.metadata, tool_shed_repository.description, \
+        tool_shed_repository.name]) \
         .where(tool_version.tool_shed_repository_id == tool_shed_repository.id)
-    with engine.connect() as conn:
+    with eng.connect() as conn:
         result = conn.execute(sele)
         for row in result:
             list_tools.append(row)
@@ -125,10 +138,12 @@ def list_all_tools(database, engine):
     return list_tools
 
 def groupby(users_stat):
+    """
+        function group by
+    """
     stat_group = {}
     for row in users_stat:
-        listrow = row.values()
-        login = string.split(row[0],"@")[0]
+        login = string.split(row[0], "@")[0]
         try:
             user_uid = getpwnam(login).pw_uid
             user_gname = getgrgid(getpwuid(user_uid).pw_gid).gr_name
@@ -138,29 +153,28 @@ def groupby(users_stat):
                 stat_group[user_gname] = row[1]
         except KeyError:
             print "User %s doesn't exist in this system" % login
-            pass
     return sorted(stat_group.items(), key=itemgetter(1))
 
-def jobs_count(database, engine, date_in, date_out):
+def countjobs(datab, engine, date_in, date_out):
     """
         build a count list of tools using by user
     """
     jobs_stats_bytools = []
     jobs_stats_byusers = []
-    job, galaxy_user= database.job, database.galaxy_user
+    job, galaxy_user = datab.job, datab.galaxy_user
 #    sele= select([job.tool_id, galaxy_user.email, func.count(job.tool_id)]) \
 #        .where(galaxy_user.id==job.user_id) \
 #        .where(between(job.create_time, date_in, date_out)) \
 #        .group_by(galaxy_user.email, job.tool_id) \
 #        .order_by(galaxy_user.email, desc(func.count(job.tool_id)))
 
-    sele= select([job.tool_id, func.count(job.tool_id)]) \
+    sele = select([job.tool_id, func.count(job.tool_id)]) \
         .where(between(job.create_time, date_in, date_out)) \
         .group_by(job.tool_id) \
         .order_by(desc(func.count(job.tool_id)))
 
-    sele2= select([galaxy_user.email, func.count(job.user_id)]) \
-            .where(galaxy_user.id==job.user_id) \
+    sele2 = select([galaxy_user.email, func.count(job.user_id)]) \
+            .where(galaxy_user.id == job.user_id) \
             .where(between(job.create_time, date_in, date_out)) \
             .group_by(galaxy_user.email) \
             .order_by(desc(func.count(job.user_id)))
@@ -172,27 +186,28 @@ def jobs_count(database, engine, date_in, date_out):
     with engine.connect() as conn:
         result = conn.execute(sele2)
         for row in result:
-           jobs_stats_byusers.append(row)
+            jobs_stats_byusers.append(row)
 
-    bygroup =  groupby(jobs_stats_byusers)
+    bygroup = groupby(jobs_stats_byusers)
 
     return jobs_stats_bytools, jobs_stats_byusers, bygroup
 
-def workflow_info(database, engine):
+def workflow_info(datab, eng):
     """
         Workflow informations recovery
     """
     workflows = {}
-    workflow_step = database.workflow_step
-    sele = select([workflow_step.tool_id, workflow_step.workflow_id, workflow_step.order_index]) \
+    workflow_step = datab.workflow_step
+    sele = select([workflow_step.tool_id, workflow_step.workflow_id, \
+        workflow_step.order_index]) \
         .order_by(workflow_step.workflow_id, workflow_step.order_index)
-    with engine.connect() as conn:
+    with eng.connect() as conn:
         result = conn.execute(sele)
         for row in result:
             if workflows.has_key(row[1]):
-                workflows[row[1]].append((row[0],row[2]))
+                workflows[row[1]].append((row[0], row[2]))
             else:
-                workflows[row[1]] = [(row[0],row[2])]
+                workflows[row[1]] = [(row[0], row[2])]
     inv_workflows = {tuple(v): k for k, v in workflows.items()}
     return inv_workflows
 
@@ -227,11 +242,11 @@ if __name__ == "__main__":
 
     database_connection = config_parsing(args.universefile)
     database, engine = map_database(database_connection)
-    #STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = jobs_count(database, engine, args.date_in, args.date_out)
+    #STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = countjobs(database, engine, args.date_in, args.date_out)
     #WORKFLOWS = workflow_info(database, engine)
     TOOLS_LIST = list_all_tools(database, engine)
-    MODULE_DICT = build_xml_to_dict(args.module_file)
-    BIOWEB_DICTS = build_metadata_two(TOOLS_LIST, MODULE_DICT)
+    MODULE_DICT = build_XML_to_Dict(args.module_file)
+    BIOWEB_DICTS = build_metadata(TOOLS_LIST, MODULE_DICT)
     json_write(args.bioweb_json_file, BIOWEB_DICTS)
 
     
