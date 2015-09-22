@@ -240,7 +240,7 @@ def workflow_info(datab, eng):
                 workflows[row[1]].append((row[0], row[2]))
             else:
                 workflows[row[1]] = [(row[0], row[2])]
-    inv_workflows = {tuple(v): k for k, v in workflows.items()}
+    inv_workflows = dict((tuple(v), k) for k, v in workflows.items())
     return inv_workflows
 
 def config_parsing(configfile):
