@@ -126,8 +126,8 @@
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_sort/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_sort.sh"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_metrics/0.2.2" version="0.2.2" module="R/2.15.2 ngs_roi/0.2.2"  commands="roi_metrics.Rscript"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_feature_projection/0.2.2.1" version="0.2.2.1" module="ngs_roi/0.2.2" commands="roi_feature_projection"/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/peterjc/samtools_idxstats/samtools_idxstats/0.0.1" version="0.0.1" module="samtools/0.1.19" commands="samtools idxstats;"/>
-    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3" version="1.0.3" module="samtools/0.1.19" commands="'samtools view;'samtools sort"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/peterjc/samtools_idxstats/samtools_idxstats/0.0.1" version="0.0.1" module="samtools/0.1.19" commands="samtools idxstats"/>
+    <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3" version="1.0.3" module="samtools/0.1.19" commands="samtools view;samtools sort"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mpileup_vcf/mpileup_vcf/1.0.2" version="1.0.2" module="samtools/0.1.19" commands="samtools mpileup"/>
     <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/1.0.0" version="1.0.0" module="samtools/0.1.19" commands="samtools flagstat"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/mpileup_v2/mpileup/0.1.19" version="0.1.19" module="samtools/0.1.19" commands="samtools mpileup"/>

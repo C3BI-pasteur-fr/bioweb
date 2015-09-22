@@ -89,7 +89,7 @@ def build_programs_names(modules, toolid):
             softslist = module2softs(module)
             for soft in softslist:
                 currentmodulesdict[soft] = module
-        try:    
+        try: 
             programs = ["prog@%s@%s" % ( \
                 currentmodulesdict[command].replace('/', '@'), \
                 command) for command in modules[toolid][1]]
