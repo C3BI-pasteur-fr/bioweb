@@ -64,7 +64,13 @@ def module2softs(mod):
     """
         build list of softwares of one module
     """
-    helpmod = subprocess.check_output(['module', 'help', mod]).split('\n')
+    proc = subprocess.Popen('module help %s' % mod, shell=True, 
+				stdin=subprocess.PIPE,
+				stdout=subprocess.PIPE,
+				stderr=subprocess.PIPE,
+				)
+    stdout_value, stderr_value = proc.communicate()
+    helpmod = stderr_value.split('\n') #Pourquoi ca sort sur error?
     i = 0
     for item in helpmod:
         i += 1
@@ -88,10 +94,15 @@ def build_programs_names(modules, toolid):
                 currentmodulesdict[command].replace('/', '@'), \
                 command) for command in modules[toolid][1]]
         except KeyError:
-            print >> sys.stderr, \
-            "WARNING, Command %s no match a software in modules %s" % \
-            (command, modules[toolid][0])
-            programs = [command for command in modules[toolid][1]]
+            try:
+                programs = ["prog@%s@%s" % ( \
+                currentmodulesdict[command.split()[0]].replace('/', '@'), \
+                command) for command in modules[toolid][1]]
+            except KeyError:
+                print >> sys.stderr, \
+                "WARNING, Command %s no match a software in modules %s" % \
+                (command, modules[toolid][0])
+                programs = [command for command in modules[toolid][1]]
 
     return programs
 
@@ -109,7 +120,7 @@ def build_metadata(tools_list, module_dict):
             #pprint.pprint(metadata["tools"])
 
             for toolmeta in metadata["tools"]:
-                pprint.pprint(toolmeta)
+                #pprint.pprint(toolmeta)
                 if toolmeta["guid"] == tool.tool_id:
                     progs = build_programs_names(module_dict, toolmeta["guid"])
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
