@@ -11,16 +11,18 @@ from sqlalchemy import create_engine, select, between, MetaData, func, desc
 from sqlalchemy.ext.automap import automap_base
 from pwd import getpwnam, getpwuid
 from grp import getgrgid
-from operator import itemgetterimport, ConfigParser
+from operator import itemgetter
+import ConfigParser
 import argparse
 import string
 import sys
 import json
 import pprint
+import subprocess
 
 
 
-def build_XML_to_dict(module_conf_data):
+def build_xml_to_dict(module_conf_data):
     """
         return a dictionnary of module_conf.xml
     """
@@ -58,19 +60,39 @@ def build_modules_names(tool, tools_dict):
             % (tool[0], tool[1])
     return base
 
+def module2softs(mod):
+    """
+        build list of softwares of one module
+    """
+    helpmod = subprocess.check_output(['module', 'help', mod]).split('\n')
+    i = 0
+    for item in helpmod:
+        i += 1
+        if item == 'package provides following commands:':
+            break
+    return [item[1:] for item in helpmod[i:] if item]
+
+
 def build_programs_names(modules, toolid):
     """
-        build list of programs with prog@package@version@tool_id format
+        build list of programs with prog@package@version@command format
     """
     if modules.has_key(toolid):
-        if len(modules) == 1:
-            programs = ["%s@%s@%s" % (command,  \
-                modules[toolid][0][0].replace('/', '@'), \
-                toolid) for command in modules[toolid][1]]
-        else:
+        currentmodulesdict = {}
+        for module in modules[toolid][0]:
+            softslist = module2softs(module)
+            for soft in softslist:
+                currentmodulesdict[soft] = module
+        try:    
+            programs = ["prog@%s@%s" % ( \
+                currentmodulesdict[command].replace('/', '@'), \
+                command) for command in modules[toolid][1]]
+        except KeyError:
+            print >> sys.stderr, \
+            "WARNING, Command %s no match a software in modules %s" % \
+            (command, modules[toolid][0])
             programs = [command for command in modules[toolid][1]]
-    else:
-        programs = [""]
+
     return programs
 
 def build_metadata(tools_list, module_dict):
@@ -87,18 +109,17 @@ def build_metadata(tools_list, module_dict):
             #pprint.pprint(metadata["tools"])
 
             for toolmeta in metadata["tools"]:
+                pprint.pprint(toolmeta)
                 if toolmeta["guid"] == tool.tool_id:
-                    progs = build_programs_names(module_dict, toolmeta["id"])
+                    progs = build_programs_names(module_dict, toolmeta["guid"])
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
                         (base_modules_names[-1], toolmeta["id"])
                     gen_dict[u'description'] = toolmeta["description"]
                     gen_dict[u'name'] = toolmeta["name"]
-                    gen_dict[u'version'] = toolmeta["version"]
-                    gen_dict[u'galaxy_id'] = toolmeta["guid"]
-            gen_dict[u'package'] = ['pack@%s' % base_modules_names[-1]]
-            gen_dict[u'packages_uses'] = \
-                ['pack@%s' % name for name in base_modules_names]
-            gen_dict[u'program'] = progs
+            gen_dict[u'package'] = 'pack@%s' % base_modules_names[-1]
+            #gen_dict[u'packages_uses'] = \
+            #    ['pack@%s' % name for name in base_modules_names]
+            gen_dict[u'programs'] = progs
             gen_dict[u'type'] = 'galaxy'
             gen_dict[u'url'] = \
                 'https://galaxy.web.pasteur.fr/root?tool_id=%s' % tool.tool_id
@@ -112,7 +133,7 @@ def map_database(connection):
     """
     eng = create_engine(connection)
     metadata = MetaData()
-    metadata.reflect(engine)
+    metadata.reflect(eng)
     base = automap_base(metadata=metadata)
     base.prepare()
     return base.classes, eng
@@ -155,7 +176,7 @@ def groupby(users_stat):
             print "User %s doesn't exist in this system" % login
     return sorted(stat_group.items(), key=itemgetter(1))
 
-def countjobs(datab, engine, date_in, date_out):
+def countjobs(datab, eng, date_in, date_out):
     """
         build a count list of tools using by user
     """
@@ -179,11 +200,11 @@ def countjobs(datab, engine, date_in, date_out):
             .group_by(galaxy_user.email) \
             .order_by(desc(func.count(job.user_id)))
 
-    with engine.connect() as conn:
+    with eng.connect() as conn:
         result = conn.execute(sele)
         for row in result:
             jobs_stats_bytools.append(row)
-    with engine.connect() as conn:
+    with eng.connect() as conn:
         result = conn.execute(sele2)
         for row in result:
             jobs_stats_byusers.append(row)
@@ -245,7 +266,7 @@ if __name__ == "__main__":
     #STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = countjobs(database, engine, args.date_in, args.date_out)
     #WORKFLOWS = workflow_info(database, engine)
     TOOLS_LIST = list_all_tools(database, engine)
-    MODULE_DICT = build_XML_to_Dict(args.module_file)
+    MODULE_DICT = build_xml_to_dict(args.module_file)
     BIOWEB_DICTS = build_metadata(TOOLS_LIST, MODULE_DICT)
     json_write(args.bioweb_json_file, BIOWEB_DICTS)
 
