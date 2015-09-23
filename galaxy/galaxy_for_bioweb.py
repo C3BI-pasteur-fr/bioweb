@@ -103,7 +103,7 @@ def build_programs_ids(modules, toolid):
                 currentmodulesdict[command.split()[0]].replace('/', '@'), \
                 command.split()[0]) for command in modules[toolid][1]]
                 sub_commands = [build_sub_command(command, \
-                currentmodulesdict[command].replace('/', '@'), \
+                currentmodulesdict[command.split()[0]].replace('/', '@'), \
                 ) for command in modules[toolid][1]]
             except KeyError:
                 print >> sys.stderr, \
