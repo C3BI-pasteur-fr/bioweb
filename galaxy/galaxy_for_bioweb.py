@@ -64,11 +64,11 @@ def module2softs(mod):
     """
         build list of softwares of one module
     """
-    proc = subprocess.Popen('module help %s' % mod, shell=True, 
-				stdin=subprocess.PIPE,
-				stdout=subprocess.PIPE,
-				stderr=subprocess.PIPE,
-				)
+    proc = subprocess.Popen('module help %s' % mod, shell=True, \
+				        stdin=subprocess.PIPE, \
+				        stdout=subprocess.PIPE, \
+				        stderr=subprocess.PIPE, \
+				        )
     stdout_value, stderr_value = proc.communicate()
     helpmod = stderr_value.split('\n') #Pourquoi ca sort sur error?
     i = 0
@@ -79,7 +79,7 @@ def module2softs(mod):
     return [item[1:] for item in helpmod[i:] if item]
 
 
-def build_programs_names(modules, toolid):
+def build_programs_ids(modules, toolid):
     """
         build list of programs with prog@package@version@command format
     """
@@ -89,22 +89,43 @@ def build_programs_names(modules, toolid):
             softslist = module2softs(module)
             for soft in softslist:
                 currentmodulesdict[soft] = module
-        try: 
+        sub_commands = []
+        try:
             programs = ["prog@%s@%s" % ( \
                 currentmodulesdict[command].replace('/', '@'), \
                 command) for command in modules[toolid][1]]
+            sub_commands = [build_sub_command(command, \
+                currentmodulesdict[command].replace('/', '@'), \
+                ) for command in modules[toolid][1]]
         except KeyError:
             try:
                 programs = ["prog@%s@%s" % ( \
                 currentmodulesdict[command.split()[0]].replace('/', '@'), \
-                command) for command in modules[toolid][1]]
+                command.split()[0]) for command in modules[toolid][1]]
+                sub_commands = [build_sub_command(command, \
+                currentmodulesdict[command].replace('/', '@'), \
+                ) for command in modules[toolid][1]]
             except KeyError:
                 print >> sys.stderr, \
                 "WARNING, Command %s no match a software in modules %s" % \
                 (command, modules[toolid][0])
-                programs = [command for command in modules[toolid][1]]
+                programs = ["prog@%s" % command \
+                            for command in modules[toolid][1]]
+                sub_commands = [build_sub_command(command\
+                ) for command in modules[toolid][1]]
+    return programs, sub_commands
 
-    return programs
+def build_sub_command(command, currentmodule=None):
+    """
+        build sub command id
+    """
+    if currentmodule:
+        sub_command = "prog@%s" % currentmodule
+    else:
+        sub_command = "prog"
+    for sub in command.split():
+        sub_command = sub_command + "@%s" % sub
+    return sub_command
 
 def build_metadata(tools_list, module_dict):
     """
@@ -122,7 +143,7 @@ def build_metadata(tools_list, module_dict):
             for toolmeta in metadata["tools"]:
                 #pprint.pprint(toolmeta)
                 if toolmeta["guid"] == tool.tool_id:
-                    progs = build_programs_names(module_dict, toolmeta["guid"])
+                    progs, sub_commands = build_programs_ids(module_dict, toolmeta["guid"])
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
                         (base_modules_names[-1], toolmeta["id"])
                     gen_dict[u'description'] = toolmeta["description"]
@@ -131,6 +152,7 @@ def build_metadata(tools_list, module_dict):
             #gen_dict[u'packages_uses'] = \
             #    ['pack@%s' % name for name in base_modules_names]
             gen_dict[u'programs'] = progs
+            gen_dict[u'sub_commands'] = sub_commands
             gen_dict[u'type'] = 'galaxy'
             gen_dict[u'url'] = \
                 'https://galaxy.web.pasteur.fr/root?tool_id=%s' % tool.tool_id
@@ -254,7 +276,7 @@ def config_parsing(configfile):
 
 def json_write(output_json, build_dict):
     """
-       dump the json 
+       dump the json
     """
     with open(output_json, 'w') as jsonfile:
         try:
@@ -281,7 +303,7 @@ if __name__ == "__main__":
     BIOWEB_DICTS = build_metadata(TOOLS_LIST, MODULE_DICT)
     json_write(args.bioweb_json_file, BIOWEB_DICTS)
 
-    
+
     #STAT_DIC = {"STAT_BYTOOLS" : [], "STAT_BYUSERS" : [], "STAT_BYGROUPS" : STAT_BYGROUPS}
     #for row in STAT_BYTOOLS:
     #    listrow = row.values()
@@ -293,9 +315,9 @@ if __name__ == "__main__":
     #    print "%s\t%d" % (listrow[0], listrow[1])
     #for row in STAT_BYGROUPS:
     #    print "%s\t%d" % (row[0], row[1])
-        
+
     #json_write(args.bioweb_json_file, STAT_DIC)
-    
+
     #    listrow = row.values()
     #    if listrow[0] in tooldict:
     #       tooldict[listrow[0]][0].append([listrow[1], listrow[2]])
@@ -310,4 +332,4 @@ if __name__ == "__main__":
     #    print key, value
 
 
-                                                                        
+

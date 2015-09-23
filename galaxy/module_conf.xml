@@ -116,7 +116,7 @@
     <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_reverse_complement"/>
     <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" version="1.0.0" module="fastx_toolkit/0.0.13" commands="fastx_trimmer"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.0.1" version="0.0.1" module="HTSeq/0.5.3p9" commands="htseq-count"/>
-    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.6.1p1" version="0.6.1p1" module="HTSeq/0.6.1p1" commands="htseq-count"/>    
+    <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/fmareuil/htseqcount/htseqCount/0.6.1p1" version="0.6.1p1" module="HTSeq/0.6.1" commands="htseq-count"/>    
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_filter/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_filter.sh"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_report/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_report.py"/>
     <tool id="galaxy.web.pasteur.fr/toolshed-pasteur/repos/screno/ngs_roi2/roi_plot_thumbnails/0.2.2" version="0.2.2" module="ngs_roi/0.2.2"  commands="roi_plot_thumbnails.py"/>
