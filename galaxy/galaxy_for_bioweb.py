@@ -109,7 +109,7 @@ def build_programs_ids(modules, toolid):
                 print >> sys.stderr, \
                 "WARNING, Command %s no match a software in modules %s" % \
                 (command, modules[toolid][0])
-                programs = ["prog@%s" % command \
+                programs = ["prog@%s" % command.split()[0] \
                             for command in modules[toolid][1]]
                 sub_commands = [build_sub_command(command\
                 ) for command in modules[toolid][1]]
