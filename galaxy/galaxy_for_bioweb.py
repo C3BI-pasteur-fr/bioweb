@@ -7,11 +7,8 @@ Created on Jan. 30, 2015
 @githuborganization: bioweb
 """
 
-from sqlalchemy import create_engine, select, between, MetaData, func, desc
+from sqlalchemy import create_engine, select, MetaData
 from sqlalchemy.ext.automap import automap_base
-from pwd import getpwnam, getpwuid
-from grp import getgrgid
-from operator import itemgetter
 import ConfigParser
 import argparse
 import string
@@ -38,7 +35,7 @@ def build_xml_to_dict(module_conf_data):
 
 def build_modules_names(tool, tools_dict):
     """
-        return a list of base names for _id, package and packages_uses, the last
+        return a list of base names for _id, package, the last
         in the list is the most important
     """
     base = []
@@ -143,7 +140,8 @@ def build_metadata(tools_list, module_dict):
             for toolmeta in metadata["tools"]:
                 #pprint.pprint(toolmeta)
                 if toolmeta["guid"] == tool.tool_id:
-                    progs, sub_commands = build_programs_ids(module_dict, toolmeta["guid"])
+                    progs, sub_commands = build_programs_ids(module_dict, \
+                                        toolmeta["guid"])
                     gen_dict[u'_id'] = 'galaxy@%s@%s' % \
                         (base_modules_names[-1], toolmeta["id"])
                     gen_dict[u'description'] = toolmeta["description"]
@@ -191,80 +189,6 @@ def list_all_tools(datab, eng):
     #pprint.pprint(list_tools)
     return list_tools
 
-def groupby(users_stat):
-    """
-        function group by
-    """
-    stat_group = {}
-    for row in users_stat:
-        login = string.split(row[0], "@")[0]
-        try:
-            user_uid = getpwnam(login).pw_uid
-            user_gname = getgrgid(getpwuid(user_uid).pw_gid).gr_name
-            if user_gname in stat_group:
-                stat_group[user_gname] = stat_group[user_gname] + row[1]
-            else:
-                stat_group[user_gname] = row[1]
-        except KeyError:
-            print "User %s doesn't exist in this system" % login
-    return sorted(stat_group.items(), key=itemgetter(1))
-
-def countjobs(datab, eng, date_in, date_out):
-    """
-        build a count list of tools using by user
-    """
-    jobs_stats_bytools = []
-    jobs_stats_byusers = []
-    job, galaxy_user = datab.job, datab.galaxy_user
-#    sele= select([job.tool_id, galaxy_user.email, func.count(job.tool_id)]) \
-#        .where(galaxy_user.id==job.user_id) \
-#        .where(between(job.create_time, date_in, date_out)) \
-#        .group_by(galaxy_user.email, job.tool_id) \
-#        .order_by(galaxy_user.email, desc(func.count(job.tool_id)))
-
-    sele = select([job.tool_id, func.count(job.tool_id)]) \
-        .where(between(job.create_time, date_in, date_out)) \
-        .group_by(job.tool_id) \
-        .order_by(desc(func.count(job.tool_id)))
-
-    sele2 = select([galaxy_user.email, func.count(job.user_id)]) \
-            .where(galaxy_user.id == job.user_id) \
-            .where(between(job.create_time, date_in, date_out)) \
-            .group_by(galaxy_user.email) \
-            .order_by(desc(func.count(job.user_id)))
-
-    with eng.connect() as conn:
-        result = conn.execute(sele)
-        for row in result:
-            jobs_stats_bytools.append(row)
-    with eng.connect() as conn:
-        result = conn.execute(sele2)
-        for row in result:
-            jobs_stats_byusers.append(row)
-
-    bygroup = groupby(jobs_stats_byusers)
-
-    return jobs_stats_bytools, jobs_stats_byusers, bygroup
-
-def workflow_info(datab, eng):
-    """
-        Workflow informations recovery
-    """
-    workflows = {}
-    workflow_step = datab.workflow_step
-    sele = select([workflow_step.tool_id, workflow_step.workflow_id, \
-        workflow_step.order_index]) \
-        .order_by(workflow_step.workflow_id, workflow_step.order_index)
-    with eng.connect() as conn:
-        result = conn.execute(sele)
-        for row in result:
-            if workflows.has_key(row[1]):
-                workflows[row[1]].append((row[0], row[2]))
-            else:
-                workflows[row[1]] = [(row[0], row[2])]
-    inv_workflows = dict((tuple(v), k) for k, v in workflows.items())
-    return inv_workflows
-
 def config_parsing(configfile):
     """
         Parse the config file
@@ -287,8 +211,6 @@ def json_write(output_json, build_dict):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--universefile", help="config file of galaxy")
-    parser.add_argument("--date_in", help="format is YYYY-MM-DD")
-    parser.add_argument("--date_out", help="format is YYYY-MM-DD")
     parser.add_argument("--module_file", help="module_conf_file")
     parser.add_argument("--bioweb_json_file", help="json bioweb output file")
     args = parser.parse_args()
@@ -296,40 +218,7 @@ if __name__ == "__main__":
 
     database_connection = config_parsing(args.universefile)
     database, engine = map_database(database_connection)
-    #STAT_BYTOOLS, STAT_BYUSERS, STAT_BYGROUPS = countjobs(database, engine, args.date_in, args.date_out)
-    #WORKFLOWS = workflow_info(database, engine)
     TOOLS_LIST = list_all_tools(database, engine)
     MODULE_DICT = build_xml_to_dict(args.module_file)
     BIOWEB_DICTS = build_metadata(TOOLS_LIST, MODULE_DICT)
     json_write(args.bioweb_json_file, BIOWEB_DICTS)
-
-
-    #STAT_DIC = {"STAT_BYTOOLS" : [], "STAT_BYUSERS" : [], "STAT_BYGROUPS" : STAT_BYGROUPS}
-    #for row in STAT_BYTOOLS:
-    #    listrow = row.values()
-    #    STAT_DIC["STAT_BYTOOLS"].append((listrow[0], listrow[1]))
-    #    print "%s\t%d" % (listrow[0], listrow[1])
-    #for row in STAT_BYUSERS:
-    #    listrow = row.values()
-    #    STAT_DIC["STAT_BYUSERS"].append((listrow[0], listrow[1]))
-    #    print "%s\t%d" % (listrow[0], listrow[1])
-    #for row in STAT_BYGROUPS:
-    #    print "%s\t%d" % (row[0], row[1])
-
-    #json_write(args.bioweb_json_file, STAT_DIC)
-
-    #    listrow = row.values()
-    #    if listrow[0] in tooldict:
-    #       tooldict[listrow[0]][0].append([listrow[1], listrow[2]])
-    #       print tooldict[listrow[0]]
-    #       sorted(tooldict[listrow[0]][0], key=itemgetter(1))
-    #       tooldict[listrow[0]][1] = tooldict[listrow[0]][1] + listrow[2]
-    #    else:
-    #        tooldict[listrow[0]] = [[[listrow[1], listrow[2]]], listrow[2]]
-    #for l in tooldict:
-    #    print l, tooldict[l]
-    #for key, value in WORKFLOWS.items():
-    #    print key, value
-
-
-
