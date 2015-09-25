@@ -6,9 +6,6 @@ Created on Jan. 30, 2015
 @project: bioweb_galaxy
 @githuborganization: bioweb
 """
-
-from sqlalchemy import create_engine, select, MetaData
-from sqlalchemy.ext.automap import automap_base
 import ConfigParser
 import argparse
 import string
@@ -16,8 +13,32 @@ import sys
 import json
 import pprint
 import subprocess
+from sqlalchemy import create_engine, select, MetaData
+from sqlalchemy.ext.automap import automap_base
+from pymongo import MongoClient
+from pymongo.errors import DuplicateKeyError
 
 
+
+def export_to_Mongo(galaxy_dicts, connect=None):  
+    """
+        export bioweb dict into the db mongo
+    """
+    if not connect:  
+        client = MongoClient()
+    else:
+        client = MongoClient(connect)
+    dbmongo = client.bioweb
+    catalog = dbmongo.catalog
+    catalog.remove({}, multi=True)
+    for doc in galaxy_dicts:
+        try:
+            catalog.insert(doc)
+        except DuplicateKeyError:
+            inserted_doc = catalog.find({'_id': doc['_id']})
+            print inserted_doc[0]
+            print >> sys.stderr, \
+                "WARNING Key %s already exist in the db" % doc["_id"]
 
 def build_xml_to_dict(module_conf_data):
     """
@@ -142,19 +163,19 @@ def build_metadata(tools_list, module_dict):
                 if toolmeta["guid"] == tool.tool_id:
                     progs, sub_commands = build_programs_ids(module_dict, \
                                         toolmeta["guid"])
-                    gen_dict[u'_id'] = 'galaxy@%s@%s' % \
+                    gen_dict['_id'] = 'galaxy@%s@%s' % \
                         (base_modules_names[-1], toolmeta["id"])
-                    gen_dict[u'description'] = toolmeta["description"]
-                    gen_dict[u'name'] = toolmeta["name"]
-            gen_dict[u'package'] = 'pack@%s' % base_modules_names[-1]
+                    gen_dict['description'] = toolmeta["description"]
+                    gen_dict['name'] = toolmeta["name"]
+            gen_dict['package'] = 'pack@%s' % base_modules_names[-1]
             #gen_dict[u'packages_uses'] = \
             #    ['pack@%s' % name for name in base_modules_names]
-            gen_dict[u'programs'] = progs
-            gen_dict[u'sub_commands'] = sub_commands
-            gen_dict[u'type'] = 'galaxy'
-            gen_dict[u'url'] = \
+            gen_dict['programs'] = progs
+            gen_dict['sub_commands'] = sub_commands
+            gen_dict['type'] = 'galaxy'
+            gen_dict['url'] = \
                 'https://galaxy.web.pasteur.fr/root?tool_id=%s' % tool.tool_id
-            gen_dict[u'topic'] = []
+            gen_dict['topic'] = []
             list_dict.append(gen_dict)
     return list_dict
 
@@ -221,4 +242,5 @@ if __name__ == "__main__":
     TOOLS_LIST = list_all_tools(database, engine)
     MODULE_DICT = build_xml_to_dict(args.module_file)
     BIOWEB_DICTS = build_metadata(TOOLS_LIST, MODULE_DICT)
-    json_write(args.bioweb_json_file, BIOWEB_DICTS)
+    export_to_Mongo(BIOWEB_DICTS)
+    #json_write(args.bioweb_json_file, BIOWEB_DICTS)
