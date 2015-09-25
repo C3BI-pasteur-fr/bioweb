@@ -39,7 +39,7 @@ def export_to_Mongo(galaxy_dicts, connect=None):
                 catalog.update({'_id': doc['_id']}, doc)
             else:
                 print >> sys.stderr, \
-                "WARNING Key %s already exist in the db but with a different url %s" % (doc['_id'], doc['url'])
+                "WARNING Key %s already exist in the db but with a different url %s versus %s" % (doc['_id'], inserted_doc['url'], doc['url'])
 
 def build_xml_to_dict(module_conf_data):
     """
