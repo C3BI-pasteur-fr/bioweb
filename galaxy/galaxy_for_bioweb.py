@@ -30,15 +30,16 @@ def export_to_Mongo(galaxy_dicts, connect=None):
         client = MongoClient(connect)
     dbmongo = client.bioweb
     catalog = dbmongo.catalog
-    catalog.remove({}, multi=True)
     for doc in galaxy_dicts:
         try:
             catalog.insert(doc)
         except DuplicateKeyError:
-            inserted_doc = catalog.find({'_id': doc['_id']})
-            print inserted_doc[0]
-            print >> sys.stderr, \
-                "WARNING Key %s already exist in the db" % doc["_id"]
+            inserted_doc = catalog.find_one({'_id': doc['_id']})
+            if inserted_doc['url'] == doc['url']:
+                catalog.update({'_id': doc['_id']}, doc)
+            else:
+                print >> sys.stderr, \
+                "WARNING Key %s already exist in the db but with a different url %s" % (doc['_id'], doc['url']
 
 def build_xml_to_dict(module_conf_data):
     """
