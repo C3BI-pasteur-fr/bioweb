@@ -11,7 +11,7 @@ import argparse
 import string
 import sys
 import json
-import pprint
+#import pprint
 import subprocess
 from sqlalchemy import create_engine, select, MetaData
 from sqlalchemy.ext.automap import automap_base
@@ -39,7 +39,9 @@ def export_to_Mongo(galaxy_dicts, connect=None):
                 catalog.update({'_id': doc['_id']}, doc)
             else:
                 print >> sys.stderr, \
-                "WARNING Key %s already exist in the db but with a different url %s versus %s" % (doc['_id'], inserted_doc['url'], doc['url'])
+                "WARNING Key %s already exist in the db but with a different \
+                 url %s versus %s" % (doc['_id'], inserted_doc['url'], \
+                 doc['url'])
 
 def build_xml_to_dict(module_conf_data):
     """
@@ -89,7 +91,7 @@ def module2softs(mod):
 				        stderr=subprocess.PIPE, \
 				        )
     stdout_value, stderr_value = proc.communicate()
-    helpmod = stderr_value.split('\n') #Pourquoi ca sort sur error?
+    helpmod = stderr_value.split('\n')
     i = 0
     for item in helpmod:
         i += 1
@@ -157,10 +159,8 @@ def build_metadata(tools_list, module_dict):
         #test if no module for this tool no build dictionnary
         if len(base_modules_names) != 0:
             metadata = json.loads(tool.metadata.decode("utf-8"))
-            #pprint.pprint(metadata["tools"])
 
             for toolmeta in metadata["tools"]:
-                #pprint.pprint(toolmeta)
                 if toolmeta["guid"] == tool.tool_id:
                     progs, sub_commands = build_programs_ids(module_dict, \
                                         toolmeta["guid"])
@@ -208,7 +208,6 @@ def list_all_tools(datab, eng):
         result = conn.execute(sele)
         for row in result:
             list_tools.append(row)
-    #pprint.pprint(list_tools)
     return list_tools
 
 def config_parsing(configfile):
@@ -233,15 +232,19 @@ def json_write(output_json, build_dict):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--universefile", help="config file of galaxy")
+    parser.add_argument("--mongodb_connection", help="uri format, mongodb://<host>:<port>")
     parser.add_argument("--module_file", help="module_conf_file")
     parser.add_argument("--bioweb_json_file", help="json bioweb output file")
     args = parser.parse_args()
-
+    if not args.mongodb_connection:
+        connection = None
+    else:
+        connection = args.mongodb_connection
 
     database_connection = config_parsing(args.universefile)
     database, engine = map_database(database_connection)
     TOOLS_LIST = list_all_tools(database, engine)
     MODULE_DICT = build_xml_to_dict(args.module_file)
     BIOWEB_DICTS = build_metadata(TOOLS_LIST, MODULE_DICT)
-    export_to_Mongo(BIOWEB_DICTS)
+    export_to_Mongo(BIOWEB_DICTS, connect=connection)
     #json_write(args.bioweb_json_file, BIOWEB_DICTS)
